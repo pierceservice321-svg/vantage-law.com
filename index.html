@@ -7,37 +7,22 @@
     <style>
         body { background-color: #ffffff; color: #000; font-family: "Garamond", serif; margin: 0; padding: 15px; line-height: 1.5; }
         .container { max-width: 500px; margin: auto; }
-        
-        /* 手機版縮小標題 */
         header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px; }
-        h1 { font-size: 1.4rem; letter-spacing: 5px; text-transform: uppercase; margin: 0; font-weight: bold; }
+        h1 { font-size: 1.2rem; letter-spacing: 4px; text-transform: uppercase; margin: 0; font-weight: bold; }
         .intro { font-family: serif; margin-top: 10px; color: #333; font-size: 0.85rem; line-height: 1.4; }
-        
         .form-section { background: #f9f9f9; padding: 20px; border: 1px solid #eee; margin-bottom: 20px; }
         .form-intro { font-family: monospace; color: #000; font-size: 0.8rem; text-align: center; margin-bottom: 5px; font-weight: bold; }
-        
-        /* 評分上移並縮小 */
         .stars-input { display: flex; flex-direction: row-reverse; justify-content: center; margin-bottom: 10px; }
         .stars-input input { display: none; }
         .stars-input label { font-size: 1.5rem; color: #ccc; cursor: pointer; padding: 0 4px; transition: 0.2s; }
         .stars-input label:hover, .stars-input label:hover ~ label, .stars-input input:checked ~ label { color: #000; }
-        
         textarea { width: 100%; border: 1px solid #ccc; padding: 10px; box-sizing: border-box; font-family: serif; font-size: 0.95rem; margin-bottom: 10px; height: 80px; outline: none; border-radius: 0; resize: none; }
-        button { background: #000; color: #fff; border: none; padding: 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; width: 100%; font-weight: bold; font-size: 0.85rem; }
-
+        button { background: #000; color: #fff; border: none; padding: 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; width: 100%; font-weight: bold; font-size: 0.85rem; }
         .display-wrapper { height: 180px; display: flex; align-items: center; justify-content: center; text-align: center; border-top: 1px solid #eee; margin-top: 15px; position: relative; padding: 10px; }
         #reviewDisplay { transition: opacity 0.5s ease-in-out; opacity: 0; width: 100%; }
         .review-stars { font-size: 0.75rem; margin-bottom: 8px; letter-spacing: 2px; color: #000; }
         .review-text { font-size: 1rem; margin-bottom: 5px; font-weight: bold; font-style: italic; }
         .review-subtext { font-size: 0.7rem; color: #999; font-family: monospace; text-transform: uppercase; }
-
-        @media (max-width: 480px) {
-            h1 { font-size: 1.2rem; letter-spacing: 3px; }
-            .display-wrapper { height: 200px; }
-        }
-
-        .view-all { text-align: center; margin-top: 30px; }
-        .view-all a { color: #000; text-decoration: none; border-bottom: 1px solid #000; font-size: 0.7rem; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -66,44 +51,58 @@
     <div class="display-wrapper">
         <div id="reviewDisplay"></div>
     </div>
-
-    <div class="view-all">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/viewanalytics" target="_blank">Archives →</a>
-    </div>
 </div>
 
 <script>
-    // 這裡我簡化了結構，實際上你可以在陣列中填滿各100則
-    const responseLibrary = {
-        s1: Array.from({length: 100}, (_, i) => `[SYSTEM]：1星評價已確認。處置：${["收債人已出發", "律師已授權對您進行智力監控", "這顆星留給您的墓碑吧", "建議您立刻申請破產，因為律師生氣很貴"][i % 4]}。`),
-        s2: Array.from({length: 100}, (_, i) => `[SYSTEM]：2星評價已受理。備註：${["勉強及格的掙扎", "您的不滿對律師毫無影響", "建議增加諮詢費以換取同情", "檔案已移入『低價值投訴』"][i % 4]}。`),
-        s3: Array.from({length: 100}, (_, i) => `[SYSTEM]：3星評價。系統判定：${["極度平庸的審美", "律師表示：『還可以更好，指錢的部分』", "中立等同於無能", "已自動忽略此無感證言"][i % 4]}。`),
-        s4: Array.from({length: 100}, (_, i) => `[SYSTEM]：4星評價。狀態：${["偵測到微妙的崇拜", "律師收下了您的讚美，但不會降價", "您很有眼光，但還不夠極致", "檔案已標記為『潛在長約客戶』"][i % 4]}。`),
-        s5: Array.from({length: 100}, (_, i) => `[SYSTEM]：5星評價。警報：${["偵測到盲目崇拜", "律師：『你的品味跟案情一樣令人不安』", "別以為好評能換取我的溫柔", "已將此用戶列入『好騙名單』"][i % 4]}。`)
+    // --- 100 則評論與回應庫 (示範結構) ---
+    const rawReviews = Array.from({length: 100}, (_, i) => ({
+        text: `這是第 ${i+1} 種不同的毒舌評論，保證盧卡不抽菸。`,
+        note: `[SYSTEM]：檔案編號 #VNTG-${i+1}`
+    }));
+
+    const rawResponses = {
+        s1: Array.from({length: 100}, (_, i) => `[SYSTEM]：1星回應 #${i+1}：律師已授權收債人。`),
+        s2: Array.from({length: 100}, (_, i) => `[SYSTEM]：2星回應 #${i+1}：平庸的掙扎。`),
+        s3: Array.from({length: 100}, (_, i) => `[SYSTEM]：3星回應 #${i+1}：無感的證言。`),
+        s4: Array.from({length: 100}, (_, i) => `[SYSTEM]：4星回應 #${i+1}：眼光尚可。`),
+        s5: Array.from({length: 100}, (_, i) => `[SYSTEM]：5星回應 #${i+1}：盲目的崇拜。`)
     };
 
-    const staticReviews = Array.from({length: 100}, (_, i) => ({
-        text: [
-            "他叫我閉嘴，他說他討厭任何會震動空氣的廢話。",
-            "這是我見過最帥但也最混蛋的人。",
-            "他說我的案子唯一的亮點就是我那愚蠢的勇氣。",
-            "他在開庭前問我：『你準備好讓全城都知道你有多蠢了嗎？』",
-            "委託他後，我覺得地獄都變得親切了。",
-            "他說我的長相就是一種犯罪，建議直接認罪。",
-            "他把我的卷宗拿去墊咖啡杯，留下一圈圈水漬。",
-            "他說我的罪名應該再加上一條『浪費空氣』。",
-            "他在法庭上大笑，因為對方律師絆倒了。",
-            "他說：『除了錢，你沒有任何值得我多看一眼的東西。』"
-        ][i % 10],
-        note: `[SYSTEM]：歷史檔案編號 #${1000 + i}`
-    }));
+    // --- 洗牌核心邏輯 ---
+    function shuffle(array) {
+        let currentIndex = array.length, randomIndex;
+        while (currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+        }
+        return array;
+    }
+
+    // 建立各類別的「牌堆」
+    let reviewDeck = shuffle([...rawReviews]);
+    let responseDecks = {
+        s1: shuffle([...rawResponses.s1]),
+        s2: shuffle([...rawResponses.s2]),
+        s3: shuffle([...rawResponses.s3]),
+        s4: shuffle([...rawResponses.s4]),
+        s5: shuffle([...rawResponses.s5])
+    };
+
+    // 抽牌函數：抽完會自動補貨
+    function drawFromDeck(deck, originalSource) {
+        if (deck.length === 0) {
+            deck.push(...shuffle([...originalSource]));
+        }
+        return deck.pop();
+    }
 
     let displayElement = document.getElementById('reviewDisplay');
 
-    function showRandomReview() {
+    function showNext() {
         displayElement.style.opacity = 0;
         setTimeout(() => {
-            const rev = staticReviews[Math.floor(Math.random() * staticReviews.length)];
+            const rev = drawFromDeck(reviewDeck, rawReviews);
             displayElement.innerHTML = `
                 <div class="review-stars">★☆☆☆☆</div>
                 <div class="review-text">「${rev.text}」</div>
@@ -113,33 +112,23 @@
         }, 500);
     }
 
-    setInterval(showRandomReview, 4000);
-    window.onload = showRandomReview;
+    setInterval(showNext, 4500);
+    window.onload = showNext;
 
     async function handleCustomSubmit() {
         const comment = document.getElementById('comment').value;
         const ratingInput = document.querySelector('input[name="rating"]:checked');
-        if (!ratingInput || !comment) { alert("請填寫完整。"); return; }
+        if (!ratingInput || !comment) return;
 
         const rating = ratingInput.value;
         const starCount = parseInt(rating);
         const key = "s" + starCount;
         
-        // 隨機選取該星等的一則回覆
-        const responses = responseLibrary[key];
-        const randomReply = responses[Math.floor(Math.random() * responses.length)];
+        // 從該星等的牌堆抽出一則不重複的回應
+        const randomReply = drawFromDeck(responseDecks[key], rawResponses[key]);
 
-        // Google Form 提交 (這部分邏輯不變)
-        const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/formResponse";
-        const formData = new FormData();
-        formData.append("entry.307929863", rating);
-        formData.append("entry.1108477442", comment);
-        fetch(formURL, { method: "POST", mode: "no-cors", body: formData });
-
-        // 彈出律師的回覆
         alert(randomReply.replace("[SYSTEM]：", ""));
 
-        // 更新顯示區域
         displayElement.style.opacity = 0;
         setTimeout(() => {
             let stars = "★".repeat(starCount) + "☆".repeat(5-starCount);
@@ -150,7 +139,6 @@
             `;
             displayElement.style.opacity = 1;
         }, 500);
-        
         document.getElementById('comment').value = "";
     }
 </script>
