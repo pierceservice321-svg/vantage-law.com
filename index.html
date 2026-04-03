@@ -5,70 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vantage Law | Client Testimonials</title>
     <style>
-        body { background-color: #ffffff; color: #000; font-family: "Garamond", serif; margin: 0; padding: 60px 20px; line-height: 1.6; overflow-x: hidden; }
-        .container { max-width: 650px; margin: auto; position: relative; }
+        body { background-color: #ffffff; color: #000; font-family: "Garamond", serif; margin: 0; padding: 60px 20px; line-height: 1.6; position: relative; min-height: 100vh; }
+        .container { max-width: 650px; margin: auto; }
         
+        /* 標題與圖標 */
         header { display: flex; align-items: center; justify-content: center; border-bottom: 2px solid #000; padding-bottom: 30px; margin-bottom: 50px; }
         .logo-icon { width: 35px; height: 35px; background-color: #8B4513; border-radius: 50%; margin-right: 15px; flex-shrink: 0; }
         h1 { font-size: 2.2rem; letter-spacing: 8px; text-transform: uppercase; margin: 0; font-weight: bold; }
         
+        /* 表單區域 */
         .form-section { background: #f9f9f9; padding: 40px; border: 1px solid #eee; margin-bottom: 40px; }
         .form-intro { font-family: monospace; font-size: 0.95rem; text-align: left; margin-bottom: 30px; font-weight: bold; border-left: 4px solid #8B4513; padding-left: 15px; }
         
         .stars-input { display: flex; flex-direction: row-reverse; justify-content: center; margin-bottom: 25px; }
         .stars-input input { display: none; }
-        .stars-input label { font-size: 2.2rem; color: #ccc; cursor: pointer; padding: 0 8px; }
+        .stars-input label { font-size: 2.2rem; color: #ccc; cursor: pointer; padding: 0 8px; transition: 0.2s; }
         .stars-input label:hover, .stars-input label:hover ~ label, .stars-input input:checked ~ label { color: #000; }
         
         textarea { width: 100%; border: 1px solid #ccc; padding: 15px; box-sizing: border-box; font-family: serif; font-size: 1rem; margin-bottom: 15px; height: 100px; outline: none; resize: none; }
-        button { background: #000; color: #fff; border: none; padding: 15px 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; width: 100%; font-weight: bold; }
+        button { background: #000; color: #fff; border: none; padding: 15px 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; width: 100%; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #8B4513; }
 
-        /* --- 展示區 --- */
-        .display-wrapper {
-            height: 300px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            border-top: 1px dashed #ccc;
-            margin-top: 30px;
-            position: relative; /* 為了讓彈窗相對於此容器 */
-        }
+        /* --- 負評展示區（還原為原本的回覆樣式） --- */
+        .display-wrapper { height: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 1px dashed #ccc; margin-top: 30px; padding-top: 20px; }
+        #reviewDisplay { transition: opacity 0.6s ease-in-out; opacity: 0; width: 100%; }
+        .review-stars { font-size: 1.2rem; margin-bottom: 15px; letter-spacing: 5px; color: #000; }
+        .review-text { font-size: 1.4rem; margin-bottom: 10px; font-weight: bold; line-height: 1.5; padding: 0 10px; }
+        .system-tag { font-family: monospace; font-size: 0.95rem; color: #999; margin-top: 5px; display: block; }
+        
+        .rebuttal-box { font-family: monospace; font-size: 0.85rem; color: #666; margin-top: 20px; padding: 10px 20px; display: inline-block; border-left: 2px solid #8B4513; background: #fcfcfc; text-align: left; max-width: 85%; }
+        .rebuttal-label { font-weight: bold; color: #000; display: block; margin-bottom: 3px; }
 
-        #reviewContent { transition: opacity 0.6s; opacity: 0; width: 100%; }
-        .review-stars { font-size: 1.2rem; margin-bottom: 15px; letter-spacing: 5px; }
-        .review-text { font-size: 1.4rem; font-weight: bold; line-height: 1.5; padding: 0 20px; }
-        .system-tag { font-family: monospace; font-size: 0.95rem; color: #999; margin-top: 10px; display: block; }
-
-        /* --- 彈出視窗樣式 --- */
-        #popupRebuttal {
-            position: absolute;
+        /* --- 中央送出成功的彈出視窗 --- */
+        #systemPopup {
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.8);
-            width: 85%;
-            background: rgba(0, 0, 0, 0.95); /* 深色背景 */
+            width: 320px;
+            background: rgba(0, 0, 0, 0.95);
             color: #fff;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            z-index: 100;
+            padding: 30px;
+            text-align: center;
+            z-index: 999;
             opacity: 0;
             visibility: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-family: monospace;
-            text-align: left;
-            border-left: 5px solid #8B4513;
+            border: 1px solid #8B4513;
         }
-
-        #popupRebuttal.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-        .popup-label { color: #8B4513; font-weight: bold; display: block; margin-bottom: 10px; font-size: 0.8rem; letter-spacing: 2px; }
-        .popup-msg { font-size: 0.95rem; line-height: 1.6; }
+        #systemPopup.show { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+        .popup-title { color: #8B4513; font-weight: bold; display: block; margin-bottom: 15px; font-size: 0.9rem; letter-spacing: 2px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .popup-msg { font-size: 0.9rem; line-height: 1.6; }
 
         .view-all { text-align: center; margin-top: 60px; }
         .view-all a { color: #000; text-decoration: none; border-bottom: 1px solid #000; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
@@ -83,7 +71,7 @@
     </header>
 
     <section class="form-section">
-        <div class="form-intro">&gt; 數據採集終端已就緒。</div>
+        <div class="form-intro">&gt; DATA ACQUISITION: IN PROGRESS<br>&gt; 法律不憐憫弱者，但您可以選擇在此留下遺言。</div>
         <form id="gform">
             <div class="stars-input">
                 <input type="radio" id="s5" name="rating" value="5星"><label for="s5">★</label>
@@ -98,12 +86,7 @@
     </section>
 
     <div class="display-wrapper">
-        <div id="reviewContent"></div>
-        
-        <div id="popupRebuttal">
-            <span class="popup-label">&gt; ATTORNEY'S REBUTTAL</span>
-            <div class="popup-msg" id="popupMsg"></div>
-        </div>
+        <div id="reviewDisplay"></div>
     </div>
 
     <div class="view-all">
@@ -111,74 +94,77 @@
     </div>
 </div>
 
+<div id="systemPopup">
+    <span class="popup-title">SYSTEM NOTIFICATION</span>
+    <div class="popup-msg" id="popupMsg">數據採集完成。</div>
+</div>
+
 <script>
-    const reviews = [
+    const staticReviews = [
         { id: "01", text: "他居然在法庭上說對方的律師長得像猴子。我輸了官司，但他看起來很爽。", reply: "更正：是對靈長類動物的冒犯。我事後已向動物園致歉。" },
         { id: "05", text: "他在事務所裡抽雪茄，還把煙吐在我臉上，說這叫『法律的薰陶』。", reply: "高品質煙霧有助於過濾廢話。建議列入諮詢費。" },
         { id: "08", text: "他在合約裡加了一條：如果他贏了，我要跪著付錢。", reply: "這叫尊重專業。下次請自備護膝。" },
-        { id: "10", text: "他說我的長相就是一種犯罪，建議我直接認罪。", reply: "我是在幫你節省公帑，法官看到你的臉會判更重。" },
+        { id: "10", text: "他說我的長相就是一種犯罪，建議我直接認罪。", reply: "法官看到你的臉會判更重。我是在救你。" },
         { id: "13", text: "他在開庭時用手機訂外送，還問法官要不要吃漢堡。", reply: "飢餓會導致誤判，我這是在維護司法正義。" },
-        { id: "15", text: "他說我的案子唯一的亮點就是我那愚蠢的勇氣。", reply: "勇氣可嘉，但支票簿的厚度才決定這場官司的勝負。" },
-        { id: "16", text: "他在事務所裡養了一隻食人魚，還叫我的名字。", reply: "牠比你聽話，而且從不詢問能不能打折。" },
-        { id: "19", text: "他在開庭時全程戴墨鏡，說對面的愚蠢閃到了他的眼睛。", reply: "保護視力是律師的職業本能。對面真的很瞎。" }
+        { id: "15", text: "他說我的案子唯一的亮點就是我那愚蠢的勇氣。", reply: "勇氣可嘉，但支票簿的厚度才決定勝負。" },
+        { id: "19", text: "他在開庭時全程戴墨鏡，說對面的愚蠢閃到了他的眼睛。", reply: "對面真的很瞎。保護視力是律師的基本人權。" }
     ];
 
-    const contentDiv = document.getElementById('reviewContent');
-    const popup = document.getElementById('popupRebuttal');
+    const display = document.getElementById('reviewDisplay');
+    const popup = document.getElementById('systemPopup');
     const popupMsg = document.getElementById('popupMsg');
 
-    function cycleReview() {
-        // 1. 隱藏舊內容
-        contentDiv.style.opacity = 0;
-        popup.classList.remove('show');
-
+    function updateDisplay() {
+        display.style.opacity = 0;
         setTimeout(() => {
-            const rev = reviews[Math.floor(Math.random() * reviews.length)];
-            
-            // 2. 顯示負評
-            contentDiv.innerHTML = `
+            const rev = staticReviews[Math.floor(Math.random() * staticReviews.length)];
+            display.innerHTML = `
                 <div class="review-stars">★☆☆☆☆</div>
                 <div class="review-text">「${rev.text}」</div>
-                <span class="system-tag">[SYSTEM] : 檔案編號 #VNTG-${rev.id}</span>
+                <div class="system-tag">[SYSTEM] : 檔案編號 #VNTG-${rev.id}</div>
+                <div class="rebuttal-box">
+                    <span class="rebuttal-label">ATTORNEY'S REBUTTAL:</span>
+                    <span>${rev.reply}</span>
+                </div>
             `;
-            contentDiv.style.opacity = 1;
-
-            // 3. 延遲 1.5 秒彈出回覆
-            setTimeout(() => {
-                popupMsg.innerText = rev.reply;
-                popup.classList.add('show');
-            }, 1500);
-
-        }, 800);
+            display.style.opacity = 1;
+        }, 600);
     }
 
-    // 每 7 秒切換一次（給彈窗留足夠時間）
-    setInterval(cycleReview, 7000);
-    window.onload = cycleReview;
+    setInterval(updateDisplay, 6000); 
+    window.onload = updateDisplay;
 
     function handleCustomSubmit() {
         const comment = document.getElementById('comment').value;
-        if(!comment) return;
+        const ratingInput = document.querySelector('input[name="rating"]:checked');
         
-        alert("證言錄入成功。");
+        if (!comment || !ratingInput) {
+            showPopup("請輸入完整數據，法律不容許任何疏漏。");
+            return;
+        }
+
+        const starCount = parseInt(ratingInput.value);
         
-        contentDiv.style.opacity = 0;
-        popup.classList.remove('show');
-
-        setTimeout(() => {
-            contentDiv.innerHTML = `
-                <div class="review-stars">★★★☆☆</div>
-                <div class="review-text">「${comment}」</div>
-                <span class="system-tag">[SYSTEM] : 檔案編號 #VNTG-LIVE</span>
-            `;
-            contentDiv.style.opacity = 1;
-
-            setTimeout(() => {
-                popupMsg.innerText = "已攔截。本系統拒絕處理這種充滿情緒化的垃圾信息。";
-                popup.classList.add('show');
-            }, 1500);
-        }, 800);
+        // 彈出視窗文字
+        const messages = [
+            "數據採集完成。感謝你對盧卡律師形象的無謂貢獻。",
+            "證言已錄入。雖然這改變不了你失敗的人生。",
+            "好評收到。現在，請把律師費匯過來。",
+            "律師已查閱。他表示這寫得跟你的辯詞一樣無力。"
+        ];
+        
+        showPopup(starCount === 5 ? messages[2] : messages[Math.floor(Math.random()*messages.length)]);
+        
+        // 重置表單
         document.getElementById('comment').value = "";
+    }
+
+    function showPopup(text) {
+        popupMsg.innerText = text;
+        popup.classList.add('show');
+        setTimeout(() => {
+            popup.classList.remove('show');
+        }, 3500); // 3.5秒後自動關閉
     }
 </script>
 </body>
