@@ -8,25 +8,21 @@
         body { background-color: #ffffff; color: #000; font-family: "Garamond", serif; margin: 0; padding: 60px 20px; line-height: 1.6; position: relative; min-height: 100vh; }
         .container { max-width: 650px; margin: auto; }
         
-        /* 標題與圖標 */
         header { display: flex; align-items: center; justify-content: center; border-bottom: 2px solid #000; padding-bottom: 30px; margin-bottom: 50px; }
         .logo-icon { width: 35px; height: 35px; background-color: #8B4513; border-radius: 50%; margin-right: 15px; flex-shrink: 0; }
         h1 { font-size: 2.2rem; letter-spacing: 8px; text-transform: uppercase; margin: 0; font-weight: bold; }
         
-        /* 表單區域 */
         .form-section { background: #f9f9f9; padding: 40px; border: 1px solid #eee; margin-bottom: 40px; }
         .form-intro { font-family: monospace; font-size: 1rem; text-align: center; margin-bottom: 30px; font-weight: bold; }
         
         .stars-input { display: flex; flex-direction: row-reverse; justify-content: center; margin-bottom: 25px; }
         .stars-input input { display: none; }
-        .stars-input label { font-size: 2.2rem; color: #ccc; cursor: pointer; padding: 0 8px; transition: 0.2s; }
+        .stars-input label { font-size: 2.2rem; color: #ccc; cursor: pointer; padding: 0 8px; }
         .stars-input label:hover, .stars-input label:hover ~ label, .stars-input input:checked ~ label { color: #000; }
         
         textarea { width: 100%; border: 1px solid #ccc; padding: 15px; box-sizing: border-box; font-family: serif; font-size: 1rem; margin-bottom: 15px; height: 100px; outline: none; resize: none; }
-        button { background: #000; color: #fff; border: none; padding: 15px 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; width: 100%; font-weight: bold; transition: 0.3s; }
-        button:hover { background: #333; }
+        button { background: #000; color: #fff; border: none; padding: 15px 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; width: 100%; font-weight: bold; }
 
-        /* --- 負評展示區 --- */
         .display-wrapper { height: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 2px solid #000; margin-top: 30px; padding-top: 20px; }
         #reviewDisplay { transition: opacity 0.6s ease-in-out; opacity: 0; width: 100%; }
         .review-stars { font-size: 1.2rem; margin-bottom: 15px; letter-spacing: 5px; color: #000; }
@@ -36,28 +32,10 @@
         .rebuttal-box { font-family: monospace; font-size: 0.85rem; color: #666; margin-top: 20px; padding: 10px 20px; display: inline-block; border-left: 2px solid #000; background: #f0f0f0; text-align: left; max-width: 85%; }
         .rebuttal-label { font-weight: bold; color: #000; display: block; margin-bottom: 3px; }
 
-        /* --- 中央彈出視窗 --- */
-        #systemPopup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            width: 320px;
-            background: rgba(0, 0, 0, 0.95);
-            color: #fff;
-            padding: 30px;
-            text-align: center;
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            font-family: monospace;
-            border-left: 5px solid #8B4513;
-        }
+        #systemPopup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); width: 320px; background: rgba(0, 0, 0, 0.95); color: #fff; padding: 30px; text-align: center; z-index: 999; opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); font-family: monospace; border-left: 5px solid #8B4513; }
         #systemPopup.show { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
-        .popup-title { color: #8B4513; font-weight: bold; display: block; margin-bottom: 15px; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
-        .popup-msg { font-size: 0.9rem; line-height: 1.6; }
-
+        .popup-title { color: #8B4513; font-weight: bold; display: block; margin-bottom: 15px; font-size: 0.8rem; letter-spacing: 2px; }
+        
         .view-all { text-align: center; margin-top: 60px; }
         .view-all a { color: #000; text-decoration: none; border-bottom: 1px solid #000; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
     </style>
@@ -90,35 +68,56 @@
     </div>
 
     <div class="view-all">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/viewanalytics" target="_blank">Access Full Archives →</a>
+        <a href="#" onclick="alert('數據庫連結中...'); return false;">Access Full Archives →</a>
     </div>
 </div>
 
 <div id="systemPopup">
     <span class="popup-title">ATTORNEY'S REBUTTAL</span>
-    <div class="popup-msg" id="popupMsg"></div>
+    <div id="popupMsg"></div>
 </div>
 
 <script>
-    const staticReviews = [
-        { id: "01", text: "他居然在法庭上說對方的律師長得像個未進化完成的猴子。我輸了官司，但他看起來很爽。", reply: "更正：那是對靈長類動物的侮辱，我已經為此向動物園道歉了。" },
-        { id: "05", text: "他居然在事務所裡抽雪茄，還把煙吐在我臉上，說這叫『法律的薰陶』。", reply: "這叫高品質雪茄的被動分享，你應該付我清潔費。" },
-        { id: "08", text: "他在合約裡加了一條：如果他贏了，我要跪著付錢。", reply: "尊嚴是給贏家的，而你顯然不屬於那一類。" },
-        { id: "10", text: "他說我的長補就是一種犯罪，建議我直接認罪。", reply: "我是在幫你節省公帑，法官看到你的臉會判得更重。" },
-        { id: "13", text: "他在開庭時在用手機訂外送，還問法官要不要吃漢堡。", reply: "飢餓會導致誤判，我這是在維護司法正義。" },
-        { id: "15", text: "他說我的案子唯一的亮點就是我那愚蠢的勇氣。", reply: "勇敢與愚蠢只有一線之隔，而你已經跨過去很遠了。" },
-        { id: "16", text: "他在事務所裡養了一隻食人魚，還叫我的名字。", reply: "牠比你聽話，而且從不抱怨帳單。" },
-        { id: "19", text: "他在開庭時全程戴著墨鏡，說對面的愚蠢閃到了他的眼睛。", reply: "這是一種職場安全防護，避免被智商傳染。" }
+    const allReviews = [
+        { id: "01", text: "他居然說對方的律師像未進化完成的猴子。我輸了，但他看起來很爽。", reply: "更正：是對靈長類的侮辱，我已向動物園致歉。" },
+        { id: "02", text: "律師聽我講不到三秒就翻白眼，問我有沒有買遺囑保險。", reply: "這是我對你財務剩餘價值的專業評估。" },
+        { id: "03", text: "我給了一顆星，隔天我家門口就坐著一個收債人。", reply: "效率是本所生命線，恭喜你親身體驗。" },
+        { id: "04", text: "不要相信他的笑容，他笑的時候代表有人要破產了。", reply: "或者是有人要進去了，這取決於我的心情。" },
+        { id: "05", text: "他在開庭時全程戴墨鏡，說對面的愚蠢閃到了他的眼睛。", reply: "保護視力是基本人權。對面真的很瞎。" },
+        { id: "06", text: "他連我的名字都懶得記，全程叫我『那個要進去的』。", reply: "在法律檔案庫中，編號比名字更具永恆性。" },
+        { id: "07", text: "他拿著我的口供大笑，笑到眼淚都掉下來了。", reply: "那是對人類愚蠢行為的最高敬意。" },
+        { id: "08", text: "他在開庭前問我：『你喜歡什麼顏色的監獄服？』", reply: "我只是想幫你做最後的個人色彩分析。" },
+        { id: "09", text: "他說我的長相就是一種犯罪，建議我直接認罪。", reply: "法官看到你的臉會判更重，我是在救你。" },
+        { id: "10", text: "委託他之後，我覺得坐牢可能還比較輕鬆一點。", reply: "地獄也有等級，而我顯然在頂端。" },
+        { id: "11", text: "他在開庭時訂外送，還問法官要不要吃漢堡。", reply: "飢餓導致誤判，我是在維護司法正義。" },
+        { id: "12", text: "這是一個魔鬼，但他是我這邊的魔鬼。", reply: "正確。地獄見，親愛的當事人。" },
+        { id: "13", text: "他在法庭上睡著了，醒來後第一句話是『我反對這場鬧劇』。", reply: "結果法官同意了。這就是實力。" },
+        { id: "14", text: "他叫我把證據吞下去，我還以為他在開玩笑。", reply: "那種纖維質對你的案情非常有幫助。" },
+        { id: "15", text: "他說我的案件毫無挑戰性，只適合閉著眼辯論。", reply: "所以我閉著眼也幫你贏了，不是嗎？" },
+        { id: "16", text: "他把我的卷宗拿去墊咖啡杯，問我還有沒有更厚的。", reply: "廢物利用是法律實踐的一環。" },
+        { id: "17", text: "他在事務所裡養食人魚，還叫我的名字。", reply: "牠很聽話，而且從不詢問律師費能否分期。" },
+        { id: "18", text: "他說我的案子唯一的亮點就是我那愚蠢的勇氣。", reply: "勇氣可嘉，但支票簿厚度才決定勝負。" },
+        { id: "19", text: "他在法庭上用拉丁文罵人，對面律師聽得一愣一愣的。", reply: "沒文化的律師不值得我用母語對談。" },
+        { id: "20", text: "他告訴我，如果我再說一句謊，他就親自把我送進去。", reply: "我不喜歡不專業的對手，更不喜歡愚蠢的隊友。" },
+        { id: "21", text: "他居然在律師函裡寫『祝你早日破產』，對方氣瘋了。", reply: "誠實是美德，我只是提早送上祝福。" },
+        { id: "22", text: "他問我這筆錢是洗乾淨的嗎？我說不是，他居然說：『那手續費要加兩成。』", reply: "專業去污服務當然是要收費的。" },
+        { id: "23", text: "他說我這輩子做過最聰明的事，就是花錢請他。", reply: "這確實是你智力水平的巔峰表現。" },
+        { id: "24", text: "他在法庭上畫素描，畫的是法官被打入地獄圖。", reply: "那叫藝術預言，可惜法官不懂欣賞。" },
+        { id: "25", text: "他叫我準備好最好的紅酒，如果輸了就拿來潑我。", reply: "結果我贏了，紅酒我自己喝了。你不配。" }
+        // ... 此處可無限擴充至 50 條
     ];
 
+    let unusedReviews = [...allReviews];
     const display = document.getElementById('reviewDisplay');
-    const popup = document.getElementById('systemPopup');
-    const popupMsg = document.getElementById('popupMsg');
 
     function updateDisplay() {
+        if (unusedReviews.length === 0) unusedReviews = [...allReviews];
+        
         display.style.opacity = 0;
         setTimeout(() => {
-            const rev = staticReviews[Math.floor(Math.random() * staticReviews.length)];
+            const randomIndex = Math.floor(Math.random() * unusedReviews.length);
+            const rev = unusedReviews.splice(randomIndex, 1)[0];
+            
             display.innerHTML = `
                 <div class="review-stars">★☆☆☆☆</div>
                 <div class="review-text">「${rev.text}」</div>
@@ -137,33 +136,16 @@
 
     function handleCustomSubmit() {
         const comment = document.getElementById('comment').value;
-        const ratingInput = document.querySelector('input[name="rating"]:checked');
-        
-        if (!comment || !ratingInput) return;
+        if (!comment || !document.querySelector('input[name="rating"]:checked')) return;
 
-        const starCount = parseInt(ratingInput.value);
+        const msgs = ["數據採集完成。感謝你對盧卡律師形象的無謂貢獻。", "證言已錄入。律師表示你寫得跟你的辯詞一樣無力。", "感謝好評。現在，把律師費匯過來。", "已收到。律師正在考慮是否起訴你誹謗。"];
         
-        const popupMessages = [
-            "感謝好評。現在，把錢匯過來。",
-            "證言已錄入。律師現在非常不高興。",
-            "你的崇拜讓我感到噁心，但你的錢我很喜歡。",
-            "已收到。律師正在考慮是否要起訴你誹謗。"
-        ];
-        
-        let msg = (starCount === 5) ? popupMessages[0] : popupMessages[1];
-        if (Math.random() > 0.5) msg = popupMessages[Math.floor(Math.random()*4)];
-
-        showPopup(msg);
+        document.getElementById('popupMsg').innerText = msgs[Math.floor(Math.random()*msgs.length)];
+        const popup = document.getElementById('systemPopup');
+        popup.classList.add('show');
+        setTimeout(() => popup.classList.remove('show'), 3500);
         
         document.getElementById('comment').value = "";
-    }
-
-    function showPopup(text) {
-        popupMsg.innerText = text;
-        popup.classList.add('show');
-        setTimeout(() => {
-            popup.classList.remove('show');
-        }, 3500); 
     }
 </script>
 </body>
