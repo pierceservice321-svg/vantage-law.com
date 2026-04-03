@@ -10,31 +10,33 @@
         header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 40px; margin-bottom: 50px; }
         h1 { font-size: 3rem; letter-spacing: 8px; text-transform: uppercase; margin: 0; }
         .intro { font-style: italic; margin-top: 20px; color: #555; font-size: 1.1rem; }
+        
+        /* 表單區域 */
         .form-section { background: #f9f9f9; padding: 40px; border: 1px solid #eee; margin-bottom: 60px; }
+        .form-intro { font-family: monospace; color: #000; font-size: 1rem; text-align: center; margin-bottom: 30px; letter-spacing: 1px; font-weight: bold; }
         
-        /* 系統化口吻樣式 */
-        .system-header { font-family: monospace; font-size: 0.85rem; color: #888; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 2px; text-align: center; }
-        .form-intro { font-family: monospace; color: #000; font-size: 0.95rem; text-align: center; margin-bottom: 30px; border: 1px dashed #ccc; padding: 10px; }
-        
-        .rating-wrapper { padding-top: 15px; text-align: center; }
+        /* 星星評分 */
         .stars-input { display: flex; flex-direction: row-reverse; justify-content: center; margin-bottom: 25px; }
         .stars-input input { display: none; }
         .stars-input label { font-size: 2.2rem; color: #ccc; cursor: pointer; padding: 0 8px; transition: 0.2s; }
         .stars-input label:hover, .stars-input label:hover ~ label, .stars-input input:checked ~ label { color: #000; }
         
-        textarea { width: 100%; border: 1px solid #ccc; padding: 15px; box-sizing: border-box; font-family: serif; font-size: 1rem; margin-bottom: 15px; height: 120px; outline: none; border-radius: 0; }
+        /* 輸入框與按鈕 */
+        textarea { width: 100%; border: 1px solid #ccc; padding: 15px; box-sizing: border-box; font-family: serif; font-size: 1rem; margin-bottom: 15px; height: 120px; outline: none; border-radius: 0; resize: none; }
         textarea:focus { border-color: #000; }
-        
         button { background: #000; color: #fff; border: none; padding: 15px 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; transition: 0.3s; width: 100%; font-weight: bold; }
         button:hover { background: #333; }
         
+        /* 評論列表 */
         .review-item { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 30px; animation: fadeIn 0.5s; }
-        .review-stars { font-size: 0.9rem; margin-bottom: 10px; letter-spacing: 2px; }
+        .review-stars { font-size: 0.9rem; margin-bottom: 10px; letter-spacing: 2px; color: #000; }
         .review-text { font-size: 1.1rem; margin-bottom: 8px; font-weight: bold; }
         .review-subtext { font-size: 0.8rem; color: #999; font-family: monospace; text-transform: uppercase; margin-top: 10px; letter-spacing: 1px; }
         
+        /* 頁尾連結 */
         .view-all { text-align: center; margin-top: 40px; }
         .view-all a { color: #000; text-decoration: none; border-bottom: 1px solid #000; font-size: 0.9rem; padding-bottom: 2px; }
+        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -47,22 +49,17 @@
     </header>
 
     <section class="form-section">
-        <div class="system-header">[ Accessing Client Portal... ]</div>
         <div class="form-intro">
-            &gt; SYSTEM STATUS: READY<br>
-            &gt; DATA ACQUISITION: IN PROGRESS<br>
             &gt; 請選擇對您那悲慘命運的滿意度。
         </div>
         
         <form id="gform">
-            <div class="rating-wrapper">
-                <div class="stars-input">
-                    <input type="radio" id="s5" name="rating" value="5星"><label for="s5">★</label>
-                    <input type="radio" id="s4" name="rating" value="4星"><label for="s4">★</label>
-                    <input type="radio" id="s3" name="rating" value="3星"><label for="s3">★</label>
-                    <input type="radio" id="s2" name="rating" value="2星"><label for="s2">★</label>
-                    <input type="radio" id="s1" name="rating" value="1星"><label for="s1">★</label>
-                </div>
+            <div class="stars-input">
+                <input type="radio" id="s5" name="rating" value="5星"><label for="s5">★</label>
+                <input type="radio" id="s4" name="rating" value="4星"><label for="s4">★</label>
+                <input type="radio" id="s3" name="rating" value="3星"><label for="s3">★</label>
+                <input type="radio" id="s2" name="rating" value="2星"><label for="s2">★</label>
+                <input type="radio" id="s1" name="rating" value="1星"><label for="s1">★</label>
             </div>
             
             <textarea id="comment" placeholder="在此處輸入匿名證言 / INPUT TESTIMONY HERE..." required></textarea>
@@ -71,7 +68,35 @@
     </section>
 
     <div id="reviewContainer">
-        <div class="review-item"><div class="review-stars">★☆☆☆☆</div><div class="review-text">「他真的會叫客戶滾出去。」</div><div class="review-subtext">[SYSTEM]：檔案已自動存檔於「威脅素材」資料夾。處置：隨時待命。</div></div>
+        <div class="review-item">
+            <div class="review-stars">★☆☆☆☆</div>
+            <div class="review-text">「他居然在法庭上說對方的律師長得像個未進化完成的猴子。我輸了官司，但他看起來很爽。」</div>
+            <div class="review-subtext">[SYSTEM]：證言已偵測。律師已手動將此文件移入「無意義噪音」分區。</div>
+        </div>
+
+        <div class="review-item">
+            <div class="review-stars">★☆☆☆☆</div>
+            <div class="review-text">「律師聽我講不到三秒就開始翻白眼，然後問我有沒有買遺囑保險。」</div>
+            <div class="review-subtext">[SYSTEM]：證言已標記為「無效申訴」。備註：委託人智商疑似低於水平。</div>
+        </div>
+
+        <div class="review-item">
+            <div class="review-stars">★☆☆☆☆</div>
+            <div class="review-text">「我給了一顆星，隔天我家門口就坐著一個收債人。」</div>
+            <div class="review-subtext">[SYSTEM]：偵測到低階評價。律師已授權收債人進行身分核實。</div>
+        </div>
+
+        <div class="review-item">
+            <div class="review-stars">★☆☆☆☆</div>
+            <div class="review-text">「千萬別找他，他會叫你閉嘴然後直接去坐牢。」</div>
+            <div class="review-subtext">[SYSTEM]：檔案已自動存檔於「威脅素材」資料夾。備註：隨時待命。</div>
+        </div>
+
+        <div class="review-item">
+            <div class="review-stars">★☆☆☆☆</div>
+            <div class="review-text">「他真的會叫客戶滾出去。」</div>
+            <div class="review-subtext">[SYSTEM]：紀錄生成失敗。律師目前拒絕閱讀任何字數超過十個字的廢話。</div>
+        </div>
     </div>
 
     <div class="view-all">
@@ -98,14 +123,14 @@
         const normalAlerts = ["證言已錄入。雖然這聽起來像個智障寫的，但律師會用『物理方式』讓它變得很合理。", "收到了。Vantage Law 的收債人今晚會去敲你的門確認細節。UNSTEEEEEABLE!", "律師現在正忙著把對方的辯護人扔出窗外，你的案件排在下一個。", "證言已存檔。如果你敢撤回，律師會親自去教你怎麼寫字。", "還可以。等律師心情好，他或許會看一眼你寫了什麼廢話。"];
         const systemNotes = ["[SYSTEM]：證言已偵測。律師已手動將此文件移入「無意義噪音」分區。", "[SYSTEM]：檔案已標記為「無效申訴」。備註：委託人智商疑似低於水平。", "[SYSTEM]：自動備註：此證言缺乏法律價值。已由系統攔截並存入「威脅素材」。", "[SYSTEM]：偵測到低階評價。律師已授權收債人進行身分核實。", "[SYSTEM]：紀錄生成失敗。律師目前拒絕閱讀任何字數超過十個字的廢話。"];
 
-        // 提交到 Google
+        // 提交到 Google 表單
         fetch(formURL, { method: "POST", mode: "no-cors", body: formData });
 
-        // 隨機反饋
+        // 隨機彈窗回覆
         let alertMsg = (rating === "1星") ? harshAlerts[Math.floor(Math.random() * harshAlerts.length)] : normalAlerts[Math.floor(Math.random() * normalAlerts.length)];
         alert(alertMsg);
 
-        // 動態新增到下方
+        // 即時顯示評論在最上方
         const container = document.getElementById('reviewContainer');
         const item = document.createElement('div');
         item.className = 'review-item';
