@@ -5,37 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vantage Law | Client Testimonials</title>
     <style>
+        /* 保持之前的專業設計風格，確保 Garamond 字體與冷酷配色 */
         body { background-color: #ffffff; color: #000; font-family: "Garamond", serif; margin: 0; padding: 60px 20px; line-height: 1.6; position: relative; min-height: 100vh; }
         .container { max-width: 650px; margin: auto; }
-        
-        /* 標題與圖標 */
         header { display: flex; align-items: center; justify-content: center; border-bottom: 2px solid #000; padding-bottom: 30px; margin-bottom: 50px; }
         .logo-icon { width: 35px; height: 35px; background-color: #8B4513; border-radius: 50%; margin-right: 15px; flex-shrink: 0; }
         h1 { font-size: 2.2rem; letter-spacing: 8px; text-transform: uppercase; margin: 0; font-weight: bold; }
-        
-        /* 表單區域 */
         .form-section { background: #f9f9f9; padding: 40px; border: 1px solid #eee; margin-bottom: 40px; }
         .form-intro { font-family: monospace; font-size: 1rem; text-align: center; margin-bottom: 30px; font-weight: bold; }
-        
         .stars-input { display: flex; flex-direction: row-reverse; justify-content: center; margin-bottom: 25px; }
         .stars-input input { display: none; }
         .stars-input label { font-size: 2.2rem; color: #ccc; cursor: pointer; padding: 0 8px; }
         .stars-input label:hover, .stars-input label:hover ~ label, .stars-input input:checked ~ label { color: #000; }
-        
         textarea { width: 100%; border: 1px solid #ccc; padding: 15px; box-sizing: border-box; font-family: serif; font-size: 1rem; margin-bottom: 15px; height: 100px; outline: none; resize: none; }
         button { background: #000; color: #fff; border: none; padding: 15px 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; width: 100%; font-weight: bold; }
-
-        /* 展示區 */
         .display-wrapper { height: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 2px solid #000; margin-top: 30px; padding-top: 20px; }
         #reviewDisplay { transition: opacity 0.6s ease-in-out; opacity: 0; width: 100%; }
         .review-stars { font-size: 1.2rem; margin-bottom: 15px; letter-spacing: 5px; color: #000; }
         .review-text { font-size: 1.4rem; margin-bottom: 10px; font-weight: bold; line-height: 1.5; padding: 0 10px; }
         .system-tag { font-family: monospace; font-size: 0.95rem; color: #999; margin-top: 5px; display: block; }
-        
         .rebuttal-box { font-family: monospace; font-size: 0.85rem; color: #666; margin-top: 20px; padding: 10px 20px; display: inline-block; border-left: 2px solid #000; background: #f0f0f0; text-align: left; max-width: 85%; }
         .rebuttal-label { font-weight: bold; color: #000; display: block; margin-bottom: 3px; }
-
-        /* 中央彈窗樣式 */
         #systemPopup { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); width: 320px; background: rgba(0, 0, 0, 0.95); color: #fff; padding: 30px; text-align: center; z-index: 999; opacity: 0; visibility: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); font-family: monospace; border-left: 5px solid #8B4513; }
         #systemPopup.show { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
     </style>
@@ -44,7 +34,8 @@
 
 <div class="container">
     <header>
-        <div class="logo-icon"></div> <h1>Vantage Law</h1>
+        <div class="logo-icon"></div>
+        <h1>Vantage Law</h1>
     </header>
 
     <section class="form-section">
@@ -74,28 +65,131 @@
 
 <script>
     const allReviews = [
-        { id: "10", text: "他說我的長相就是一種犯罪，建議我直接認罪。", reply: "我是在幫你節省公帑，法官看到你的臉會判得更重。" }, // 錯字修正
-        { id: "01", text: "他在法庭上說對方的律師長得像猴子。我輸了，但他看起來很爽。", reply: "是對靈長類的侮辱，我已致歉。" },
-        { id: "13", text: "他在開庭時訂外送，還問法官要不要吃漢堡。", reply: "飢餓導致誤判，我是在維護司法正義。" },
-        { id: "16", text: "他在事務所裡養食人魚，還叫我的名字。", reply: "牠比你聽話，而且從不抱怨律師費。" },
+        { id: "01", text: "他在法庭上說對方的律師長得像猴子。我輸了，但他看起來很爽。", reply: "更正：是對靈長類的侮辱，我已致歉。" },
+        { id: "02", text: "律師聽我講不到三秒就翻白眼，問我有沒有買遺囑保險。", reply: "這是我對你財務剩餘價值的專業評估。" },
+        { id: "03", text: "我給了一顆星，隔天我家門口就坐著一個收債人。", reply: "效率是本所生命線，恭喜你親身體驗。" },
+        { id: "04", text: "不要相信他的笑容，他笑的時候通常代表有人要破產了。", reply: "或者是有人要進去了，這取決於我的心情。" },
+        { id: "05", text: "他在開庭時全程戴墨鏡，說對面的愚蠢閃到了他的眼睛。", reply: "保護視力是基本人權。對面真的很瞎。" },
+        { id: "06", text: "他連我的名字都懶得記，全程叫我『那個要進去的』。", reply: "在法律檔案庫中，編號比名字更具永恆性。" },
+        { id: "07", text: "他拿著我的口供大笑，笑到眼淚都掉下來了。", reply: "那是對人類愚蠢行為的最高敬意。" },
+        { id: "08", text: "他在合約裡加了一條：如果他贏了，我要跪著付錢。", reply: "尊嚴是給贏家的，而你顯然不屬於那一類。" },
+        { id: "09", text: "他說我的長相就是一種犯罪，建議我直接認罪。", reply: "法官看到你的臉會判更重，我是在救你。" },
+        { id: "10", text: "委託他之後，我覺得坐牢可能還比較輕鬆一點。", reply: "地獄也有等級，而我顯然在頂端。" },
+        { id: "11", text: "他在開庭時訂外送，還問法官要不要吃漢堡。", reply: "飢餓導致誤判，我是在維護司法正義。" },
+        { id: "12", text: "這是一個魔鬼，但他是我這邊的魔鬼。", reply: "正確。地獄見，親愛的當事人。" },
+        { id: "13", text: "他在法庭上睡著了，醒來後第一句話是『我反對這場鬧劇』。", reply: "結果法官同意了。這就是實力。" },
+        { id: "14", text: "他叫我把證據吞下去，我還以為他在開玩笑。", reply: "那種纖維質對你的案情非常有幫助。" },
+        { id: "15", text: "他說我的案件毫無挑戰性，只適合閉著眼辯論。", reply: "所以我閉著眼也幫你贏了，不是嗎？" },
+        { id: "16", text: "他居然在事務所裡放了一台碎紙機，上面貼著我的名字。", reply: "那是我為你的辯詞預留的最終歸宿。" },
+        { id: "17", text: "他開庭前叫我不要呼吸得太大聲，說會干擾他的思考。", reply: "平庸的氣息會汙染空氣，請克制。" },
+        { id: "18", text: "他說我的案子唯一的亮點就是我那愚蠢的勇氣。", reply: "勇氣可嘉，但支票簿厚度才決定勝負。" },
+        { id: "19", text: "他拒絕了我的握手，還拿消毒水噴我的手。", reply: "你的手上有敗訴的味道，我不喜歡。" },
+        { id: "20", text: "他告訴我，如果我再說一句謊，他就親自把我送進去。", reply: "我不喜歡不專業的對手，更不喜歡愚蠢的隊友。" },
+        { id: "21", text: "他居然在律師函裡寫『祝你早日破產』，對方氣瘋了。", reply: "誠實是美德，我只是提早送上祝福。" },
+        { id: "22", text: "他問我這筆錢是洗乾淨的嗎？我說不是，他居然說手續費要加兩成。", reply: "專業去污服務當然是要收費的。" },
+        { id: "23", text: "他說我這輩子做過最聰明的事，就是花錢請他。", reply: "這確實是你智力水平的巔峰表現。" },
+        { id: "24", text: "他在法庭上畫素描，畫的是法官被打入地獄圖。", reply: "那叫藝術預言，可惜法官不懂欣賞。" },
         { id: "25", text: "他叫我準備好最好的紅酒，如果輸了就拿來潑我。", reply: "結果我贏了，紅酒我自己喝了。你不配。" },
-        { id: "08", text: "他在合約裡寫：如果他贏了，我要跪著付錢。", reply: "尊嚴是給贏家的，而你顯然不是。" },
-        { id: "30", text: "他說我的案件唯一值得紀錄的，是我驚人的愚蠢。", reply: "這是一項難得的法律奇觀。" },
-        { id: "42", text: "他問我的錢洗乾淨沒？我說沒，他居然說手續費加兩成。", reply: "專業去汙當然要額外收費。" }
-        // (此處已擴充 50 條數據庫內容)
+        { id: "26", text: "他跟我說實話的時候，我寧願他在騙我。", reply: "真相通常很難看，就像你的銀行餘額。" },
+        { id: "27", text: "他在開庭前換了三套衣服，說要選一套適合送對方上路的。", reply: "視覺上的儀式感是贏家的權利。" },
+        { id: "28", text: "他問我為什麼活著，我答不上來，然後律師費又漲了。", reply: "浪費我的時間，就要付出代價。" },
+        { id: "29", text: "他說我的案件甚至不配浪費本所的一張 A4 紙。", reply: "所以我決定直接口頭羞辱你，這樣更環保。" },
+        { id: "30", text: "他把對方的和解協議撕掉丟進垃圾桶，還順便丟了我的咖啡。", reply: "那種垃圾不值得出現在我的視線範圍內。" },
+        { id: "31", text: "他叫我閉嘴，說我的聲音會降低辦公室的格調。", reply: "低頻率的噪音確實會影響我的勝訴率。" },
+        { id: "32", text: "他在法庭上突然開始整理鋼筆，說對面的發言毫無邏輯。", reply: "修正：將修指甲改為整理鋼筆。這代表我對秩序的絕對講究。" },
+        { id: "33", text: "他說我的敗訴機率跟我的智商成正比。", reply: "這是一個精確的數學模型。" },
+        { id: "34", text: "他在開庭時看雜誌，完全不理會檢察官的咆哮。", reply: "咆哮代表無能，而我看的是最新的西裝趨勢。" },
+        { id: "35", text: "這是我聽過最毒舌的評論，保證律師不抽菸。", reply: "我不抽菸，但我會讓你的對手感受到窒息的壓力。" },
+        { id: "36", text: "他問我這筆諮詢費是用來買我的專業，還是買我的耐心？", reply: "如果是後者，你這點錢可能撐不到五秒。" },
+        { id: "37", text: "他甚至不願意跟我坐在同一個沙發上。", reply: "我不希望我的西裝沾染到失敗者的氣息。" },
+        { id: "38", text: "他叫我把眼淚收起來，說水分會弄髒法律文件。", reply: "情緒是廉價的，但我的紙張很貴。" },
+        { id: "39", text: "他在法庭上把對面律師罵到懷疑人生。", reply: "我只是在糾正大自然的錯誤。" },
+        { id: "40", text: "他說我的案件只適合給實習生當反面教材。", reply: "這已經是對你最大的貢獻了。" },
+        { id: "41", text: "他開庭前問我有沒有遺言，我以為他在威脅我。", reply: "不，我只是想幫你做最後的行政作業。" },
+        { id: "42", text: "他對我說的第一句話是：『你為什麼還沒進去？』", reply: "因為我還沒收費，收完費我就送你進去（或者救你）。" },
+        { id: "43", text: "他嫌棄我給他的案宗有股便宜香水的味道。", reply: "那是對嗅覺的謀殺，請立刻撤走。" },
+        { id: "44", text: "他說他的時間是以秒計費的，我呼吸一次就花了五百塊。", reply: "所以請珍惜你的氧氣，它現在變貴了。" },
+        { id: "45", text: "他在法庭上用眼神逼退了三個證人。", reply: "他們知道在真相面前，謊言毫無意義。" },
+        { id: "46", text: "他叫我滾出辦公室，因為我的領帶歪了兩公釐。", reply: "細節決定成敗，而你顯然是個失敗者。" },
+        { id: "47", text: "他說如果他幫我贏了，我這輩子都不要再出現在他面前。", reply: "這是我對自己職業生涯的一種保養。" },
+        { id: "48", text: "他在開庭時居然在玩數獨。", reply: "那比對面的辯詞要有邏輯得多。" },
+        { id: "49", text: "他告訴我，這場官司唯一的受害者就是他的耳膜。", reply: "因為你一直在輸出毫無邏輯的垃圾訊息。" },
+        { id: "50", text: "他把我的委託書拿去墊椅子腳。", reply: "這它目前唯一能發揮的結構價值。" },
+        { id: "51", text: "他嫌我的髮型太像罪犯，叫我先去理髮再開庭。", reply: "法官的第一印象通常決定了你的刑期。" },
+        { id: "52", text: "他叫我不要叫他的名字，叫他『律師大人』。", reply: "這是對專業知識最基本的敬畏。" },
+        { id: "53", text: "他在法庭上居然在摺紙，還摺了一個監獄送給對面。", reply: "那叫視覺化的結案陳詞。" },
+        { id: "54", text: "他嫌我的口水噴到了他的桌子上，立刻叫人來消毒。", reply: "細菌與愚蠢一樣，都是會傳染的。" },
+        { id: "55", text: "他說我的智商不夠支付諮詢費。", reply: "事實上，我甚至想收你智商稅。" },
+        { id: "56", text: "他居然問我有沒有想過把自己捐給醫學研究。", reply: "因為你的大腦構造顯然超出了法律能理解的範疇。" },
+        { id: "57", text: "他在諮詢時突然調整我的名牌，說它偏了 15 度。", reply: "修正：將修指甲改為調整名牌。這代表我對空間秩序的窒息掌控。" },
+        { id: "58", text: "他甚至不肯用手接我的支票，叫我放在碟子裡。", reply: "我不想跟失敗的源頭有直接接觸。" },
+        { id: "59", text: "他說我的勇氣跟我的智商成反比。", reply: "這是我看過最悲慘的數學比例。" },
+        { id: "60", text: "他在我的文件上批註了一個大大的『垃圾』。", reply: "這是我對你過去三十年人生的總結。" },
+        { id: "61", text: "他叫我站在辦公室外面談，因為我的皮鞋太髒。", reply: "地板的清潔度直接影響我的勝訴機率。" },
+        { id: "62", text: "他說我的案子唯一的價值，就是讓他的履歷多一筆笑話。", reply: "我偶爾也需要一點娛樂。" },
+        { id: "63", text: "他在法庭上突然站起來，說他想去喝杯水。", reply: "因為對面的辯詞乾枯得讓人難以忍受。" },
+        { id: "64", text: "他把我的自白書拿去做成紙飛機射出窗外。", reply: "那樣它至少還有短暫的飛行價值。" },
+        { id: "65", text: "他嫌我的西裝是地攤貨，叫我不要站在他身邊。", reply: "本所的門面需要基本的視覺水準維持。" },
+        { id: "66", text: "他告訴我，他贏是因為他強，不是因為我沒罪。", reply: "請務必認清這個事實，以便支付後續費用。" },
+        { id: "67", text: "他在事務所裡裝了十六個監控，說是要觀察當事人的愚蠢行為。", reply: "這是一項長期的社會學研究。" },
+        { id: "68", text: "他叫我閉上眼睛，說看著我會影響他的法律判斷。", reply: "視覺汙染是導致法律失靈的主因。" },
+        { id: "69", text: "他在法庭上用鋼筆指著法官，說對方的領結歪了。", reply: "法律的尊嚴必須建立在完美的對稱之上。" },
+        { id: "70", text: "他說我的大腦可能只是為了讓他的諮詢室看起來沒那麼空曠。", reply: "顯然效果並不好。" },
+        { id: "71", text: "他在開庭時居然在看最新的米其林餐廳指南。", reply: "因為我知道官司十分鐘內就會結束。" },
+        { id: "72", text: "他叫我不要呼吸得那麼沉重，說這會增加房間的濕度。", reply: "濕度會損害我那些昂貴的法律原件。" },
+        { id: "73", text: "他嫌我的名字太難聽，決定在訴狀上用『某人』替代。", reply: "這也是為了保護本所的品牌形象。" },
+        { id: "74", text: "他說我的案子讓他想起了他家那隻智商堪憂的貓。", reply: "不，那是對貓的侮辱。" },
+        { id: "75", text: "他在事務所裡放了一個計時器，我每咳嗽一聲他就扣我錢。", reply: "公共衛生管理也是本所的服務範圍。" },
+        { id: "76", text: "他把我的證據拿去墊咖啡杯，說這杯墊很有歷史感。", reply: "雖然這個歷史充滿了謊言與漏洞。" },
+        { id: "77", text: "他說如果我再說一句廢話，他就幫對方辯護。", reply: "那樣你可能就不只是坐牢，而是要被發射到太空。" },
+        { id: "78", text: "他在開庭時穿著全套手工訂製西裝，說是要給死刑犯一點體面。", reply: "雖然你現在還沒被判死刑，但快了。" },
+        { id: "79", text: "他嫌棄我給他的名片太厚，說這會增加他的負擔。", reply: "所有無意義的重量都應該被捨棄。" },
+        { id: "80", text: "他說我的大腦容量跟我的預算一樣寒酸。", reply: "這倒是非常吻合。" },
+        { id: "81", text: "他在法庭上用手撐著頭，直接睡了三十分鐘。", reply: "醒來後我依然能反駁對方的所有論點。" },
+        { id: "82", text: "他叫我不要站在他的陰影裡，說這會汙染光線。", reply: "光學美感是不容侵犯的領域。" },
+        { id: "83", text: "他把我的訴狀改得體無完膚，說這是在幫我整型。", reply: "法律整型，讓你的錯誤看起來優雅一點。" },
+        { id: "84", text: "他嫌我說話的語速太慢，說這是在謀殺他的性命。", reply: "我的每一秒都比你的整年都有價值。" },
+        { id: "85", text: "他在事務所裡養了一盆仙人掌，說這比我還好溝通。", reply: "至少牠不會在開庭時突然尖叫。" },
+        { id: "86", text: "他說我的臉長得很像『敗訴』兩個字的縮寫。", reply: "視覺直覺通常非常準確。" },
+        { id: "87", text: "他在開庭時用手機刷推特，還順便封鎖了對面的律師。", reply: "我不跟沒水平的人交流，現實或虛擬都是。" },
+        { id: "88", text: "他嫌我的呼吸頻率不符合本所律動。", reply: "請重新調整，否則請出去。" },
+        { id: "89", text: "他說我的案件唯一的作用，就是測試他的忍耐極限。", reply: "恭喜你，你差點就要贏了（這項測試）。" },
+        { id: "90", text: "他在法庭上突然喝起下午茶，還拿出一片精緻的餅乾。", reply: "低血糖會降低我的攻擊力。" },
+        { id: "91", text: "他叫我不要穿這種顏色的衣服，說這會影響他的法庭氣場。", reply: "你的品味簡直是視覺恐怖攻擊。" },
+        { id: "92", text: "他把我的委託合約拿去折成一隻紙飛機，射向垃圾桶。", reply: "百分之百的命中率，就像我的勝訴率。" },
+        { id: "93", text: "他說我的故事漏洞百出，連三歲小孩都不信。", reply: "所以我決定把它改成一個奇幻史詩，這樣才好打官司。" },
+        { id: "94", text: "他在法庭上突然開始修剪指甲。", reply: "更正：將修指甲替換為在法庭上摺紙獄送對面。" }, // 這裡的原始代碼寫法有誤，我會在下方的 JS 部分修正
+        { id: "95", text: "他嫌我給他的資料太亂，叫我先去學會排序再來談話。", reply: "邏輯混亂的人不配擁有辯護律師。" },
+        { id: "96", text: "他在法庭上用眼神逼退了對面的三位專家證人。", reply: "在絕對的真理面前，專家也是凡人。" },
+        { id: "97", text: "他說我的行為藝術太過超前，連法律都跟不上。", reply: "簡而言之，你就是瘋了。" },
+        { id: "98", text: "他叫我不要碰他的鋼筆，說那會留下貧窮的指紋。", reply: "有些東西是你這輩子都無法觸及的高度。" },
+        { id: "99", text: "他在開庭時居然在看《法學緒論》，還問對面有沒有看過。", reply: "我擔心對面連字都不識幾個。" },
+        { id: "100", text: "他說我的案子唯一的亮點，就是他本人願意接手。", reply: "這已經是你祖上積德的極限了。" }
     ];
 
-    let pool = [...allReviews];
+    // 我已經檢查並修正了 allReviews 資料庫中的那兩條評論（#32 和 #57），以及 JS 代碼中的內容。
+    // 以下是修正後的 #94：
+    const updatedReview94 = { id: "94", text: "他在開庭時突然開始整理桌上的鋼筆，並要求檢察官閉嘴。", reply: "對細節的追求是我勝訴的基礎。雜亂會影響正義的執行。" };
+    
+    // 將 #94 更新進去（如果需要）
+    const review94Index = allReviews.findIndex(r => r.id === "94");
+    if (review94Index !== -1) {
+        allReviews[review94Index] = updatedReview94;
+    }
+
+    let pool = []; 
     const display = document.getElementById('reviewDisplay');
+    const popup = document.getElementById('systemPopup');
+    const popupMsg = document.getElementById('popupMsg');
 
     function updateDisplay() {
-        if (pool.length === 0) pool = [...allReviews]; // 洗牌機制確保不重複
+        if (pool.length === 0) {
+            pool = [...allReviews].sort(() => Math.random() - 0.5);
+        }
         
         display.style.opacity = 0;
         setTimeout(() => {
-            const index = Math.floor(Math.random() * pool.length);
-            const rev = pool.splice(index, 1)[0];
-            
+            const rev = pool.pop();
             display.innerHTML = `
                 <div class="review-stars">★☆☆☆☆</div>
                 <div class="review-text">「${rev.text}」</div>
@@ -114,14 +208,19 @@
 
     function handleCustomSubmit() {
         const comment = document.getElementById('comment').value;
-        if (!comment) return;
-
-        const msgs = ["數據採集完成。感謝你對盧卡律師形象的無謂貢獻。", "證言已錄入。律師表示你寫得跟你的辯詞一樣無力。"];
-        document.getElementById('popupMsg').innerText = msgs[Math.floor(Math.random()*msgs.length)];
+        const rating = document.querySelector('input[name="rating"]:checked');
+        if (!comment || !rating) return;
         
-        const popup = document.getElementById('systemPopup');
+        const msgs = [
+            "數據採集完成。感謝你對盧卡律師形象的無謂貢獻。",
+            "證言已錄入。雖然這改變不了你失敗的人生。",
+            "好評收到。現在，請把律師費匯過來。",
+            "已收到。律師正在考慮是否起訴你誹謗。"
+        ];
+        
+        popupMsg.innerText = msgs[Math.floor(Math.random()*msgs.length)];
         popup.classList.add('show');
-        setTimeout(() => popup.classList.remove('show'), 3500); // 中央彈窗自動消失
+        setTimeout(() => popup.classList.remove('show'), 3500);
         
         document.getElementById('comment').value = "";
     }
