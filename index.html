@@ -5,24 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vantage Law | Client Testimonials</title>
     <style>
-        body { background-color: #ffffff; color: #000; font-family: "Garamond", serif; margin: 0; padding: 15px; line-height: 1.5; }
-        .container { max-width: 500px; margin: auto; }
-        header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px; }
-        h1 { font-size: 1.2rem; letter-spacing: 4px; text-transform: uppercase; margin: 0; font-weight: bold; }
-        .intro { font-family: serif; margin-top: 10px; color: #333; font-size: 0.85rem; line-height: 1.4; }
-        .form-section { background: #f9f9f9; padding: 20px; border: 1px solid #eee; margin-bottom: 20px; }
-        .form-intro { font-family: monospace; color: #000; font-size: 0.8rem; text-align: center; margin-bottom: 5px; font-weight: bold; }
-        .stars-input { display: flex; flex-direction: row-reverse; justify-content: center; margin-bottom: 10px; }
+        body { background-color: #ffffff; color: #000; font-family: "Garamond", serif; margin: 0; padding: 60px 20px; line-height: 1.6; }
+        .container { max-width: 650px; margin: auto; }
+        
+        header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 30px; margin-bottom: 50px; }
+        h1 { font-size: 2.5rem; letter-spacing: 10px; text-transform: uppercase; margin: 0; font-weight: bold; }
+        .intro { font-family: serif; margin-top: 20px; color: #333; font-size: 1.1rem; line-height: 1.8; }
+        
+        .form-section { background: #f9f9f9; padding: 40px; border: 1px solid #eee; margin-bottom: 40px; }
+        .form-intro { font-family: monospace; color: #000; font-size: 1rem; text-align: center; margin-bottom: 30px; font-weight: bold; }
+        
+        .stars-input { display: flex; flex-direction: row-reverse; justify-content: center; margin-bottom: 25px; }
         .stars-input input { display: none; }
-        .stars-input label { font-size: 1.5rem; color: #ccc; cursor: pointer; padding: 0 4px; transition: 0.2s; }
+        .stars-input label { font-size: 2.2rem; color: #ccc; cursor: pointer; padding: 0 8px; transition: 0.2s; }
         .stars-input label:hover, .stars-input label:hover ~ label, .stars-input input:checked ~ label { color: #000; }
-        textarea { width: 100%; border: 1px solid #ccc; padding: 10px; box-sizing: border-box; font-family: serif; font-size: 0.95rem; margin-bottom: 10px; height: 80px; outline: none; border-radius: 0; resize: none; }
-        button { background: #000; color: #fff; border: none; padding: 12px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; width: 100%; font-weight: bold; font-size: 0.85rem; }
-        .display-wrapper { height: 180px; display: flex; align-items: center; justify-content: center; text-align: center; border-top: 1px solid #eee; margin-top: 15px; position: relative; padding: 10px; }
-        #reviewDisplay { transition: opacity 0.5s ease-in-out; opacity: 0; width: 100%; }
-        .review-stars { font-size: 0.75rem; margin-bottom: 8px; letter-spacing: 2px; color: #000; }
-        .review-text { font-size: 1rem; margin-bottom: 5px; font-weight: bold; font-style: italic; }
-        .review-subtext { font-size: 0.7rem; color: #999; font-family: monospace; text-transform: uppercase; }
+        
+        textarea { width: 100%; border: 1px solid #ccc; padding: 15px; box-sizing: border-box; font-family: serif; font-size: 1rem; margin-bottom: 15px; height: 100px; outline: none; border-radius: 0; resize: none; }
+        button { background: #000; color: #fff; border: none; padding: 15px 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; transition: 0.3s; width: 100%; font-weight: bold; }
+        button:hover { background: #333; }
+
+        /* --- 評論展示區 --- */
+        .display-wrapper {
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-top: 2px solid #000;
+            margin-top: 30px;
+            position: relative;
+            background: #fff;
+        }
+
+        #reviewDisplay {
+            transition: opacity 0.5s ease-in-out;
+            opacity: 0;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .review-stars { font-size: 0.9rem; margin-bottom: 15px; letter-spacing: 4px; color: #000; }
+        .review-text { font-size: 1.25rem; margin-bottom: 20px; font-weight: bold; line-height: 1.4; }
+        
+        /* 律師回覆樣式 */
+        .rebuttal-box {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: #666;
+            background: #f0f0f0;
+            padding: 15px;
+            display: inline-block;
+            max-width: 90%;
+            text-align: left;
+            border-left: 3px solid #000;
+        }
+        .rebuttal-label { font-weight: bold; color: #000; display: block; margin-bottom: 5px; text-transform: uppercase; }
+
+        .view-all { text-align: center; margin-top: 60px; }
+        .view-all a { color: #000; text-decoration: none; border-bottom: 1px solid #000; font-size: 0.8rem; padding-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -30,11 +70,15 @@
 <div class="container">
     <header>
         <h1>VANTAGE LAW</h1>
-        <p class="intro">尋求辯護律師嗎？<br>如果你在找一個麻煩的律師，看這裡。</p>
+        <p class="intro">
+            尋求辯護律師嗎？<br>
+            如果你剛好在找一個毒舌又麻煩的律師...<br>
+            看看這些證言，就知道你來對地方了。
+        </p>
     </header>
 
     <section class="form-section">
-        <div class="form-intro">&gt; 評分您的命運。</div>
+        <div class="form-intro">&gt; 請選擇對您那悲慘命運的滿意度。</div>
         <form id="gform">
             <div class="stars-input">
                 <input type="radio" id="s5" name="rating" value="5星"><label for="s5">★</label>
@@ -43,101 +87,131 @@
                 <input type="radio" id="s2" name="rating" value="2星"><label for="s2">★</label>
                 <input type="radio" id="s1" name="rating" value="1星"><label for="s1">★</label>
             </div>
-            <textarea id="comment" placeholder="匿名證言 / TESTIMONY..." required></textarea>
-            <button type="button" onclick="handleCustomSubmit()">Submit</button>
+            <textarea id="comment" placeholder="在此處輸入匿名證言 / INPUT TESTIMONY HERE..." required></textarea>
+            <button type="button" onclick="handleCustomSubmit()">Submit Testimony</button>
         </form>
     </section>
 
     <div class="display-wrapper">
-        <div id="reviewDisplay"></div>
+        <div id="reviewDisplay">
+            </div>
+    </div>
+
+    <div class="view-all">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/viewanalytics" target="_blank">Access Full Archives →</a>
     </div>
 </div>
 
 <script>
-    // --- 100 則評論與回應庫 (示範結構) ---
-    const rawReviews = Array.from({length: 100}, (_, i) => ({
-        text: `這是第 ${i+1} 種不同的毒舌評論，保證盧卡不抽菸。`,
-        note: `[SYSTEM]：檔案編號 #VNTG-${i+1}`
-    }));
+    // 50 條負評與專屬律師回覆
+    const staticReviews = [
+        { text: "他居然在法庭上說對方的律師長得像個未進化完成的猴子。我輸了官司，但他看起來很爽。", reply: "更正：那是對靈長類動物的侮辱，我已經為此向動物園道歉了。" },
+        { text: "律師聽我講不到三秒就開始翻白眼，然後問我有沒有買遺囑保險。", reply: "根據你的描述，我覺得保險受益人寫我比較划算。" },
+        { text: "我給了一顆星，隔天我家門口就坐著一個收債人。", reply: "這叫售後服務，旨在確保客戶的財務誠信。" },
+        { text: "他真的會叫客戶滾出去，我甚至還沒開始說明案件細節。", reply: "省下你的時間和我昂貴的諮詢費，這是我最後的仁慈。" },
+        { text: "他贏了官司，但他在法庭上把我那點見不得人的私事全抖出來了。", reply: "為了贏，我連自己的良心都能賣掉，何況是你的隱私？" },
+        { text: "不要相信他的笑容，他笑的時候通常代表有人要破產了。", reply: "這是事實。順便一提，你現在笑得很難看。" },
+        { text: "委託他之後，我覺得坐牢可能還比較輕鬆一點。", reply: "如果你堅持，我可以安排你在獄中享受我的遠程帳單服務。" },
+        { text: "他在法庭上睡著了，醒來後第一句話是『法官，我反對這場無聊的鬧劇』。", reply: "那叫深度冥想，而且我說中了法官的心聲。" },
+        { text: "他說我的案件毫無挑戰性，只適合用來練習如何一邊睡覺一邊辯論。", reply: "事實證明，我睡著時的勝率依然比你清醒時高。" },
+        { text: "他叫我把證據吞下去，我還以為他在開玩笑，但他眼神很認真。", reply: "纖維質對你有好處，尤其是能讓你閉嘴的那種。" },
+        { text: "我問他勝算有多少，他問我有沒有認識不錯的棺材店。", reply: "我只是在幫你做長遠的人生規劃。" },
+        { text: "他拿著我的口供大笑，笑到眼淚都掉下來了。", reply: "這是我今年看過最棒的喜劇劇本，謝謝你的無知。" },
+        { text: "他把對方的證言撕掉拿來折紙飛機，還飛到了法官頭上。", reply: "那個紙飛機飛得很完美，就像我的訴訟策略一樣。" },
+        { text: "他在合約裡加了一條：如果他輸了，我不准哭。如果他贏了，我要跪著付錢。", reply: "尊嚴是給贏家的，而你顯然不屬於那一類。" },
+        { text: "他說我的長相就是一種犯罪，建議我直接認罪。", reply: "我是在幫你節省公帑，法官看到你的臉會判得更重。" },
+        { text: "他連我的名字都懶得記，全程叫我『那個要進去的』。", reply: "名字不重要，編號才是你在監獄裡的唯一身分。" },
+        { text: "我給他五星好評，他居然打電話來問我是不是在諷刺他。", reply: "你的品味突然提高讓我感到非常不安。" },
+        { text: "他在開庭時在用手機訂外送，還問法官要不要吃漢堡。", reply: "飢餓會導致誤判，我這是在維護司法正義。" },
+        { text: "他說我的案子唯一的亮點就是我那愚蠢的勇氣。", reply: "勇敢與愚蠢只有一線之隔，而你已經跨過去很遠了。" },
+        { text: "這是一個魔鬼，但他是我這邊的魔鬼。", reply: "地獄見，親愛的委託人。" },
+        { text: "他一進事務所就叫我跪下，我還以為是邪教。", reply: "那是法律的威嚴，而我就是法律。" },
+        { text: "他在開車送我回家時全程闖紅燈，說規則是給輸家守的。", reply: "紅燈只是參考，我的時間才是絕對。" },
+        { text: "他問我遲到的五分鐘值多少錢，我說不知道，他直接從我皮夾拿走一千塊。", reply: "這叫即時計費，建議你下次學會準時。" },
+        { text: "他說我的遺囑應該寫：『我不欠任何人，除了我的律師』。", reply: "這是最誠實的遺囑，我只是代筆而已。" },
+        { text: "他在法庭上用拉丁文罵人，對面律師聽不懂還以為他在唸咒語。", reply: "這確實是咒語，一種能讓對方智商歸零的法術。" },
+        { text: "他拒絕了我的案件，理由是我的衣服顏色跟他的領帶不搭。", reply: "專業的視覺平衡是法庭勝訴的隱藏因素。" },
+        { text: "他在開庭前問我：『你喜歡什麼顏色的監獄服？』", reply: "橘色是今年的流行色，相信我。" },
+        { text: "他把我的求救信當成摺紙材料。", reply: "折出來的青蛙跳得比你的辯詞還有力。" },
+        { text: "他說我這輩子最大的錯誤就是踏進他的門。", reply: "雖然這是我對你唯一一次的實話，但諮詢費照算。" },
+        { text: "他贏了之後，把對方的律師費也一併收走了。", reply: "這是戰利品，你不懂掠食者的邏輯。" },
+        { text: "他讓我明白，法律不是正義，法律是他手中的皮鞭。", reply: "啪。感受到了嗎？" },
+        { text: "他在法庭上用冷笑話讓全場死寂，然後趁機贏了官司。", reply: "尷尬是最好的防禦，對手那時連反對都忘了說。" },
+        { text: "他對著我的全家福說：『這群人看起來都很像會被關的樣子』。", reply: "基因是誠實的，這點你不能否認。" },
+        { text: "他在事務所裡養了一隻食人魚，還叫我的名字。", reply: "牠比你聽話，而且從不抱怨帳單。" },
+        { text: "他說我的供詞聽起來像是在寫三流的小說。", reply: "就算是虛構的，你也寫得太爛了。" },
+        { text: "他在開庭時全程戴著墨鏡，說對面的愚蠢閃到了他的眼睛。", reply: "這是一種職場安全防護，避免被智商傳染。" },
+        { text: "他說我的罪名太無聊，叫我再去犯個大的再來找他。", reply: "我只處理能上新聞頭條的藝術，不處理垃圾。" },
+        { text: "我問他有沒有職業道德，他問我那是哪一國的幣值。", reply: "如果是美金的話，我可能有那麼一點。" },
+        { text: "他把我的文件拿去墊咖啡杯。", reply: "那疊廢紙終於發揮了它在法律之外的剩餘價值。" },
+        { text: "他叫我不要說話，以後都用點頭和搖頭溝通。", reply: "這對我們兩人的心理健康都有極大幫助。" },
+        { text: "他罵我罵得比對方律師還狠。", reply: "那是為了讓你在法庭上對任何攻擊都產生免疫力。" },
+        { text: "他在事務所裡放巴哈的音樂，說這是為了超渡我的錢袋。", reply: "藝術是需要代價的，你的存款就是代價。" },
+        { text: "他居然問我能不能把我的房子抵押給他當作訂金。", reply: "不動產比你那動搖的承諾可靠多了。" },
+        { text: "他在法庭上當眾打噴嚏，然後怪罪是對方的辯護太爛導致空氣過敏。", reply: "生理反應是騙不了人的，對方的論點真的很臭。" },
+        { text: "他說我的案情簡單到只需要一個小學生就能辯護。", reply: "但我收的是教授級的費用，這就是資本主義。" },
+        { text: "他居然說我的智商不值得他浪費墨水簽名。", reply: "我用的是鋼筆，墨水很貴的。" },
+        { text: "他在諮詢時一直在看指甲，完全不看我。", reply: "我的指甲比你的案子更有條理。" },
+        { text: "他贏了官司後跟我說：『下次別被抓到，很煩』。", reply: "我是律師，不是你的保母。" },
+        { text: "他說我的生命價值不值一場三十分鐘的官司。", reply: "事實上，現在已經過了三十一分鐘，你欠我錢了。" },
+        { text: "他是一隻披著羊皮的狼。", reply: "錯了，我是披著西裝的魔鬼。" }
+    ];
 
-    const rawResponses = {
-        s1: Array.from({length: 100}, (_, i) => `[SYSTEM]：1星回應 #${i+1}：律師已授權收債人。`),
-        s2: Array.from({length: 100}, (_, i) => `[SYSTEM]：2星回應 #${i+1}：平庸的掙扎。`),
-        s3: Array.from({length: 100}, (_, i) => `[SYSTEM]：3星回應 #${i+1}：無感的證言。`),
-        s4: Array.from({length: 100}, (_, i) => `[SYSTEM]：4星回應 #${i+1}：眼光尚可。`),
-        s5: Array.from({length: 100}, (_, i) => `[SYSTEM]：5星回應 #${i+1}：盲目的崇拜。`)
-    };
+    function showNextReview() {
+        const display = document.getElementById('reviewDisplay');
+        display.style.opacity = 0;
 
-    // --- 洗牌核心邏輯 ---
-    function shuffle(array) {
-        let currentIndex = array.length, randomIndex;
-        while (currentIndex != 0) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-            [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-        }
-        return array;
-    }
-
-    // 建立各類別的「牌堆」
-    let reviewDeck = shuffle([...rawReviews]);
-    let responseDecks = {
-        s1: shuffle([...rawResponses.s1]),
-        s2: shuffle([...rawResponses.s2]),
-        s3: shuffle([...rawResponses.s3]),
-        s4: shuffle([...rawResponses.s4]),
-        s5: shuffle([...rawResponses.s5])
-    };
-
-    // 抽牌函數：抽完會自動補貨
-    function drawFromDeck(deck, originalSource) {
-        if (deck.length === 0) {
-            deck.push(...shuffle([...originalSource]));
-        }
-        return deck.pop();
-    }
-
-    let displayElement = document.getElementById('reviewDisplay');
-
-    function showNext() {
-        displayElement.style.opacity = 0;
         setTimeout(() => {
-            const rev = drawFromDeck(reviewDeck, rawReviews);
-            displayElement.innerHTML = `
+            const rev = staticReviews[Math.floor(Math.random() * staticReviews.length)];
+            display.innerHTML = `
                 <div class="review-stars">★☆☆☆☆</div>
                 <div class="review-text">「${rev.text}」</div>
-                <div class="review-subtext">${rev.note}</div>
+                <div class="rebuttal-box">
+                    <span class="rebuttal-label">Attorney's Rebuttal:</span>
+                    <span>${rev.reply}</span>
+                </div>
             `;
-            displayElement.style.opacity = 1;
+            display.style.opacity = 1;
         }, 500);
     }
 
-    setInterval(showNext, 4500);
-    window.onload = showNext;
+    setInterval(showNextReview, 6000); // 6秒換一次
+    window.onload = showNextReview;
 
     async function handleCustomSubmit() {
         const comment = document.getElementById('comment').value;
         const ratingInput = document.querySelector('input[name="rating"]:checked');
-        if (!ratingInput || !comment) return;
+        if (!ratingInput || !comment) { alert("請完整填寫。"); return; }
 
         const rating = ratingInput.value;
         const starCount = parseInt(rating);
-        const key = "s" + starCount;
         
-        // 從該星等的牌堆抽出一則不重複的回應
-        const randomReply = drawFromDeck(responseDecks[key], rawResponses[key]);
+        // 模擬提交
+        fetch("https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/formResponse", {
+            method: "POST", mode: "no-cors", body: new FormData() 
+        });
 
-        alert(randomReply.replace("[SYSTEM]：", ""));
+        const fiveStarReplies = [
+            "感謝好評。現在，把錢匯過來。",
+            "你的崇拜讓我感到噁心，但你的錢我很喜歡。",
+            "證言錄入。順便說一句，你的領帶很醜。",
+            "既然滿意，下次被告時記得再多準備一倍的預算。"
+        ];
 
-        displayElement.style.opacity = 0;
+        alert(starCount === 5 ? "好評收到。但律師費照算。" : "證言已錄入。收債人已出發。");
+
+        // 立即顯示新內容
+        display.style.opacity = 0;
         setTimeout(() => {
-            let stars = "★".repeat(starCount) + "☆".repeat(5-starCount);
-            displayElement.innerHTML = `
-                <div class="review-stars">${stars}</div>
+            display.innerHTML = `
+                <div class="review-stars">${"★".repeat(starCount)}</div>
                 <div class="review-text">「${comment}」</div>
-                <div class="review-subtext">${randomReply}</div>
+                <div class="rebuttal-box">
+                    <span class="rebuttal-label">Attorney's Rebuttal:</span>
+                    <span>${starCount === 5 ? fiveStarReplies[Math.floor(Math.random()*4)] : "已收到。律師正在考慮是否要起訴你誹謗。"}</span>
+                </div>
             `;
-            displayElement.style.opacity = 1;
+            display.style.opacity = 1;
         }, 500);
         document.getElementById('comment').value = "";
     }
