@@ -11,27 +11,20 @@
         h1 { font-size: 3rem; letter-spacing: 8px; text-transform: uppercase; margin: 0; }
         .intro { font-style: italic; margin-top: 20px; color: #555; font-size: 1.1rem; }
         .form-section { background: #f9f9f9; padding: 30px; border: 1px solid #eee; margin-bottom: 60px; }
-        
-        /* 星星評分樣式 */
         .stars-input { display: flex; flex-direction: row-reverse; justify-content: flex-end; margin: 15px 0; }
         .stars-input input { display: none; }
         .stars-input label { font-size: 1.8rem; color: #ccc; cursor: pointer; padding: 0 5px; transition: 0.2s; }
         .stars-input label:hover, .stars-input label:hover ~ label, .stars-input input:checked ~ label { color: #000; }
-
         textarea { width: 100%; border: 1px solid #ccc; padding: 15px; box-sizing: border-box; font-family: serif; font-size: 1rem; margin-bottom: 15px; height: 100px; outline: none; }
-        textarea:focus { border-color: #000; }
-        
         button { background: #000; color: #fff; border: none; padding: 12px 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; width: 100%; }
         button:hover { background: #333; }
-
         .review-item { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 30px; animation: fadeIn 0.5s; }
         .review-stars { font-size: 0.9rem; margin-bottom: 10px; letter-spacing: 2px; }
         .review-text { font-size: 1.1rem; margin-bottom: 8px; font-weight: bold; }
-        .review-subtext { font-size: 0.95rem; color: #666; }
-
+        .review-subtext { font-size: 0.8rem; color: #999; font-family: monospace; text-transform: uppercase; margin-top: 10px; letter-spacing: 1px; }
+        .view-all { text-align: center; margin-top: 40px; }
+        .view-all a { color: #000; text-decoration: none; border-bottom: 1px solid #000; font-size: 0.9rem; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* 隱藏的 iframe 用於背景提交 */
         #hidden_iframe { display: none; }
     </style>
 </head>
@@ -40,7 +33,7 @@
 <div class="container">
     <header>
         <h1>VANTAGE LAW</h1>
-        <p class="intro">尋求辯護律師嗎？<br>如果你剛好在找一個毒舌又愛喝酒的律師...<br>看看這些證言，就知道你找對地方了。</p>
+        <p class="intro">尋求辯護律師嗎？<br>如果你剛好在找一個毒舌又強悍的律師...<br>看看這些證言，就知道你找對地方了。</p>
     </header>
 
     <section class="form-section">
@@ -58,8 +51,11 @@
     </section>
 
     <div id="reviewContainer">
-        <div class="review-item"><div class="review-stars">★☆☆☆☆</div><div class="review-text">「他真的會叫客戶滾出去。」</div><div class="review-subtext">我以為是網路上誇大的留言，結果不是。</div></div>
-        <div class="review-item"><div class="review-stars">★☆☆☆☆</div><div class="review-text">「用我的黑歷史贏得官司！」</div><div class="review-subtext">這並不好笑。 :(</div></div>
+        <div class="review-item"><div class="review-stars">★☆☆☆☆</div><div class="review-text">「他真的會叫客戶滾出去。」</div><div class="review-subtext">[SYSTEM]：檔案已自動存檔於「威脅素材」資料夾。備註：隨時待命。</div></div>
+    </div>
+
+    <div class="view-all">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/viewanalytics" target="_blank">View All Public Testimonials →</a>
     </div>
 </div>
 
@@ -68,46 +64,56 @@
 <script>
     function handleFormSubmit() {
         const comment = document.getElementById('comment').value;
-        const rating = document.querySelector('input[name="entry.307929863"]:checked').value;
+        const ratingInput = document.querySelector('input[name="entry.307929863"]:checked');
+        const rating = ratingInput.value;
         
-        // B & C 風格的隨機回覆
-        const normalReplies = [
+        const harshAlerts = [
+            "只有 1 顆星？律師叫你現在立刻滾出事務所。別再讓我看見你。",
+            "這顆星留給你自己吧，你的智商顯然比這顆星還低。",
+            "這種評價？收債人今晚會去你家討論一下什麼叫做真正的『差評』。",
+            "律師說他不需要這種垃圾證言。門在那邊，自己滾。",
+            "你給 1 顆星的樣子真醜，難怪你的官司輸得這麼理所當然。"
+        ];
+        const normalAlerts = [
             "證言已錄入。雖然這聽起來像個智障寫的，但律師會用『物理方式』讓它變得很合理。",
             "收到了。Vantage Law 的收債人今晚會去敲你的門確認細節。UNSTEEEEEABLE!",
-            "律師現在正忙著把對方的辯護人扔出窗外，你的案件排在下一個。"
+            "律師現在正忙著把對方的辯護人扔出窗外，你的案件排在下一個。",
+            "證言已存檔。如果你敢撤回，律師會親自去教你怎麼寫字。",
+            "還可以。等律師心情好，他或許會看一眼你寫了什麼廢話。"
+        ];
+
+        const systemNotes = [
+            "[SYSTEM]：證言已偵測。律師已手動將此文件移入「無意義噪音」分區。",
+            "[SYSTEM]：檔案已標記為「無效申訴」。備註：委託人智商疑似低於水平。",
+            "[SYSTEM]：自動備註：此證言缺乏法律價值。已由系統攔截並存入「威脅素材」。",
+            "[SYSTEM]：偵測到低階評價。律師已授權收債人進行身分核實。",
+            "[SYSTEM]：紀錄生成失敗。律師目前拒絕閱讀任何字數超過十個字的廢話。"
         ];
         
-        let finalMessage;
-        if (rating === "1星") {
-            finalMessage = "只有 1 顆星？律師叫你現在立刻滾出事務所。別再讓我看見你。";
-        } else {
-            finalMessage = normalReplies[Math.floor(Math.random() * normalReplies.length)];
-        }
+        let alertMsg = (rating === "1星") 
+            ? harshAlerts[Math.floor(Math.random() * harshAlerts.length)]
+            : normalAlerts[Math.floor(Math.random() * normalAlerts.length)];
 
-        // 跳出毒舌對話
-        alert(finalMessage);
+        alert(alertMsg);
 
-        // 即時在網頁上顯示評論
         const container = document.getElementById('reviewContainer');
         const item = document.createElement('div');
         item.className = 'review-item';
         
-        let starsDisplay = "";
-        const starCount = parseInt(rating);
-        starsDisplay = "★".repeat(starCount) + "☆".repeat(5 - starCount);
+        let starCount = parseInt(rating);
+        let starsDisplay = "★".repeat(starCount) + "☆".repeat(5 - starCount);
+        let randomNote = systemNotes[Math.floor(Math.random() * systemNotes.length)];
 
         item.innerHTML = `
             <div class="review-stars">${starsDisplay}</div>
             <div class="review-text">「${comment}」</div>
-            <div class="review-subtext">剛剛錄入的最新證言。</div>
+            <div class="review-subtext">${randomNote}</div>
         `;
         container.prepend(item);
 
-        // 清空輸入框
         document.getElementById('comment').value = "";
         return true;
     }
 </script>
-
 </body>
 </html>
