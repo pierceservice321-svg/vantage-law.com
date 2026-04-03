@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vantage Law | Client Testimonials</title>
+    <style>
+        body { background-color: #ffffff; color: #000; font-family: "Garamond", serif; margin: 0; padding: 60px 20px; line-height: 1.5; }
+        .container { max-width: 650px; margin: auto; }
+        header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 40px; margin-bottom: 50px; }
+        h1 { font-size: 3rem; letter-spacing: 8px; text-transform: uppercase; margin: 0; }
+        .intro { font-style: italic; margin-top: 20px; color: #555; font-size: 1.1rem; }
+        .form-section { background: #f9f9f9; padding: 30px; border: 1px solid #eee; margin-bottom: 60px; }
+        .stars-input { display: flex; flex-direction: row-reverse; justify-content: flex-end; margin: 15px 0; }
+        .stars-input input { display: none; }
+        .stars-input label { font-size: 1.5rem; color: #ccc; cursor: pointer; padding: 0 5px; }
+        .stars-input label:hover, .stars-input label:hover ~ label, .stars-input input:checked ~ label { color: #000; }
+        textarea { width: 100%; border: 1px solid #ccc; padding: 15px; box-sizing: border-box; font-family: serif; font-size: 1rem; margin-bottom: 15px; height: 100px; }
+        button { background: #000; color: #fff; border: none; padding: 12px 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; }
+        .review-item { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 30px; }
+        .review-stars { font-size: 0.9rem; margin-bottom: 10px; letter-spacing: 2px; }
+        .review-text { font-size: 1.1rem; margin-bottom: 8px; font-weight: bold; }
+        .review-subtext { font-size: 0.95rem; color: #666; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>VANTAGE LAW</h1>
+        <p class="intro">您好，在尋求合適的辯護律師嗎？<br>難不成你剛好在找一個毒舌又愛喝酒的色鬼律師？<br>看看這滿滿的好評，就知道你來對地方了。</p>
+    </header>
+    <section class="form-section">
+        <div class="stars-input">
+            <input type="radio" id="s5" name="rating" value="5"><label for="s5">★</label>
+            <input type="radio" id="s4" name="rating" value="4"><label for="s4">★</label>
+            <input type="radio" id="s3" name="rating" value="3"><label for="s3">★</label>
+            <input type="radio" id="s2" name="rating" value="2"><label for="s2">★</label>
+            <input type="radio" id="s1" name="rating" value="1"><label for="s1">★</label>
+        </div>
+        <textarea id="comment" placeholder="在此輸入匿名評語..."></textarea>
+        <button onclick="addPost()">Post Review</button>
+    </section>
+    <div id="reviewContainer">
+        <div class="review-item"><div class="review-stars">★☆☆☆☆</div><div class="review-text">「他真的會叫客戶滾出去。」</div><div class="review-subtext">我以為是網路上誇大的留言，結果不是。</div></div>
+        <div class="review-item"><div class="review-stars">★☆☆☆☆</div><div class="review-text">「用我的黑歷史贏得官司！」</div><div class="review-subtext">這並不好笑。 :(</div></div>
+        <div class="review-item"><div class="review-stars">★☆☆☆☆</div><div class="review-text">「他會直接說你是智障。」</div><div class="review-subtext">這讓我感到不爽極了！Shit！</div></div>
+        <div class="review-item"><div class="review-stars">★☆☆☆☆</div><div class="review-text">「他會當著所有人的面說你是白癡。」</div><div class="review-subtext">這給我留下了好大的創傷，雖然他成功替我贏了案子！</div></div>
+    </div>
+</div>
+<script>
+    function addPost() {
+        const text = document.getElementById('comment').value;
+        const rating = document.querySelector('input[name="rating"]:checked');
+        if (!rating || !text) return alert("請輸入內容並評分");
+        const container = document.getElementById('reviewContainer');
+        const item = document.createElement('div');
+        item.className = 'review-item';
+        item.innerHTML = `<div class="review-stars">${"★".repeat(rating.value)}${"☆".repeat(5-rating.value)}</div><div class="review-text">「${text}」</div><div class="review-subtext">剛剛留下的最新證言。</div>`;
+        container.prepend(item);
+        document.getElementById('comment').value = "";
+    }
+</script>
+</body>
+</html>
