@@ -5,26 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vantage Law | Client Testimonials</title>
     <style>
-        body { background-color: #ffffff; color: #000; font-family: "Garamond", serif; margin: 0; padding: 60px 20px; line-height: 1.6; }
-        .container { max-width: 650px; margin: auto; }
+        body { background-color: #ffffff; color: #000; font-family: "Garamond", serif; margin: 0; padding: 60px 20px; line-height: 1.6; overflow-x: hidden; }
+        .container { max-width: 650px; margin: auto; position: relative; }
         
-        header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 30px; margin-bottom: 50px; }
-        h1 { font-size: 2.5rem; letter-spacing: 10px; text-transform: uppercase; margin: 0; font-weight: bold; }
+        header { display: flex; align-items: center; justify-content: center; border-bottom: 2px solid #000; padding-bottom: 30px; margin-bottom: 50px; }
+        .logo-icon { width: 35px; height: 35px; background-color: #8B4513; border-radius: 50%; margin-right: 15px; flex-shrink: 0; }
+        h1 { font-size: 2.2rem; letter-spacing: 8px; text-transform: uppercase; margin: 0; font-weight: bold; }
         
         .form-section { background: #f9f9f9; padding: 40px; border: 1px solid #eee; margin-bottom: 40px; }
-        .form-intro { font-family: monospace; color: #000; font-size: 1rem; text-align: left; margin-bottom: 30px; font-weight: bold; }
+        .form-intro { font-family: monospace; font-size: 0.95rem; text-align: left; margin-bottom: 30px; font-weight: bold; border-left: 4px solid #8B4513; padding-left: 15px; }
         
         .stars-input { display: flex; flex-direction: row-reverse; justify-content: center; margin-bottom: 25px; }
         .stars-input input { display: none; }
-        .stars-input label { font-size: 2.2rem; color: #ccc; cursor: pointer; padding: 0 8px; transition: 0.2s; }
+        .stars-input label { font-size: 2.2rem; color: #ccc; cursor: pointer; padding: 0 8px; }
         .stars-input label:hover, .stars-input label:hover ~ label, .stars-input input:checked ~ label { color: #000; }
         
-        textarea { width: 100%; border: 1px solid #ccc; padding: 15px; box-sizing: border-box; font-family: serif; font-size: 1rem; margin-bottom: 15px; height: 100px; outline: none; border-radius: 0; resize: none; }
+        textarea { width: 100%; border: 1px solid #ccc; padding: 15px; box-sizing: border-box; font-family: serif; font-size: 1rem; margin-bottom: 15px; height: 100px; outline: none; resize: none; }
         button { background: #000; color: #fff; border: none; padding: 15px 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; width: 100%; font-weight: bold; }
 
-        /* --- 檔案展示區 (還原截圖排版 + 律師回覆) --- */
+        /* --- 展示區 --- */
         .display-wrapper {
-            height: 350px;
+            height: 300px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -32,40 +33,42 @@
             text-align: center;
             border-top: 1px dashed #ccc;
             margin-top: 30px;
-            padding-top: 20px;
+            position: relative; /* 為了讓彈窗相對於此容器 */
         }
 
-        #reviewDisplay {
-            transition: opacity 0.6s ease-in-out;
+        #reviewContent { transition: opacity 0.6s; opacity: 0; width: 100%; }
+        .review-stars { font-size: 1.2rem; margin-bottom: 15px; letter-spacing: 5px; }
+        .review-text { font-size: 1.4rem; font-weight: bold; line-height: 1.5; padding: 0 20px; }
+        .system-tag { font-family: monospace; font-size: 0.95rem; color: #999; margin-top: 10px; display: block; }
+
+        /* --- 彈出視窗樣式 --- */
+        #popupRebuttal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            width: 85%;
+            background: rgba(0, 0, 0, 0.95); /* 深色背景 */
+            color: #fff;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 100;
             opacity: 0;
-            width: 100%;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-family: monospace;
+            text-align: left;
+            border-left: 5px solid #8B4513;
         }
 
-        .review-stars { font-size: 1.2rem; margin-bottom: 15px; letter-spacing: 5px; color: #000; }
-        .review-text { font-size: 1.4rem; margin-bottom: 10px; font-weight: bold; line-height: 1.5; padding: 0 10px; }
-        
-        /* 檔案編號與系統日誌 */
-        .system-tag {
-            font-family: monospace;
-            font-size: 0.95rem;
-            color: #999;
-            margin-top: 5px;
-            display: block;
+        #popupRebuttal.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
         }
-        
-        .rebuttal-box {
-            font-family: monospace;
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 20px;
-            padding: 10px 20px;
-            display: inline-block;
-            border-left: 2px solid #000;
-            background: #fcfcfc;
-            text-align: left;
-            max-width: 85%;
-        }
-        .rebuttal-label { font-weight: bold; color: #000; display: block; margin-bottom: 3px; }
+
+        .popup-label { color: #8B4513; font-weight: bold; display: block; margin-bottom: 10px; font-size: 0.8rem; letter-spacing: 2px; }
+        .popup-msg { font-size: 0.95rem; line-height: 1.6; }
 
         .view-all { text-align: center; margin-top: 60px; }
         .view-all a { color: #000; text-decoration: none; border-bottom: 1px solid #000; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
@@ -75,14 +78,12 @@
 
 <div class="container">
     <header>
-        <h1>VANTAGE LAW</h1>
+        <div class="logo-icon"></div>
+        <h1>Vantage Law</h1>
     </header>
 
     <section class="form-section">
-        <div class="form-intro">
-            &gt; DATA ACQUISITION: IN PROGRESS<br>
-            &gt; 請輸入證言，法律不保護弱者，只保護準備好的人。
-        </div>
+        <div class="form-intro">&gt; 數據採集終端已就緒。</div>
         <form id="gform">
             <div class="stars-input">
                 <input type="radio" id="s5" name="rating" value="5星"><label for="s5">★</label>
@@ -91,94 +92,92 @@
                 <input type="radio" id="s2" name="rating" value="2星"><label for="s2">★</label>
                 <input type="radio" id="s1" name="rating" value="1星"><label for="s1">★</label>
             </div>
-            <textarea id="comment" placeholder="在此處輸入匿名證言 / INPUT TESTIMONY HERE..." required></textarea>
+            <textarea id="comment" placeholder="輸入匿名證言..." required></textarea>
             <button type="button" onclick="handleCustomSubmit()">Submit Testimony</button>
         </form>
     </section>
 
     <div class="display-wrapper">
-        <div id="reviewDisplay">
-            </div>
+        <div id="reviewContent"></div>
+        
+        <div id="popupRebuttal">
+            <span class="popup-label">&gt; ATTORNEY'S REBUTTAL</span>
+            <div class="popup-msg" id="popupMsg"></div>
+        </div>
     </div>
 
     <div class="view-all">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/viewanalytics" target="_blank">Access Full Archives →</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/viewanalytics" target="_blank">Access Archives →</a>
     </div>
 </div>
 
 <script>
-    const staticReviews = [
-        { id: "01", text: "他居然在法庭上說對方的律師長得像個未進化完成的猴子。我輸了官司，但他看起來很爽。", reply: "更正：那是對靈長類動物的侮辱，我已致歉。" },
-        { id: "02", text: "律師聽我講不到三秒就開始翻白眼，然後問我有沒有買遺囑保險。", reply: "這是我對你財務剩餘價值的一種專業評估。" },
-        { id: "03", text: "我給了一顆星，隔天我家門口就坐著一個收債人。", reply: "這是律師事務所的標準售後追蹤流程。" },
-        { id: "04", text: "他贏了官司，但他在法庭上把我那點見不得人的私事全抖出來了。", reply: "要贏就要徹底，你的隱私在勝訴面前一文不值。" },
-        { id: "05", text: "不要相信他的笑容，他笑的時候通常代表有人要破產了。", reply: "精準。順便提醒你，下一期律師費該匯了。" },
-        { id: "06", text: "委託他之後，我覺得坐牢可能還比較輕鬆一點。", reply: "地獄也是有等級的，而我顯然在頂端。" },
-        { id: "07", text: "他在法庭上睡著了，醒來後第一句話是『法官，我反對這場無聊的鬧劇』。", reply: "事實證明，我睡著時的直覺依然比你清醒時強。" },
-        { id: "08", text: "他在合約裡加了一條：如果他贏了，我要跪著付錢。", reply: "尊重專業。這只是其中一項基本禮儀。" },
-        { id: "09", text: "他連我的名字都懶得記，全程叫我『那個要進去的』。", reply: "編號才是法律體系中最穩定、最不會出錯的標籤。" },
-        { id: "10", text: "他說我的案件毫無挑戰性，只適合用來練習一邊睡覺一邊辯論。", reply: "所以，我確實是在閉眼的情況下贏的。" },
-        { id: "11", text: "他居然在事務所裡抽雪茄，還把煙吐在我臉上，說這叫『法律的薰陶』。", reply: "高品質煙霧有助於過濾大腦中的廢話，不用謝。" },
-        { id: "12", text: "他拿著我的口供大笑，笑到眼獄都掉下來了。", reply: "這確實是我近期讀過最幽默的犯罪自白。" },
-        { id: "13", text: "他在開庭時在用手機訂外送，還問法官要不要吃漢堡。", reply: "與法官建立美食默契，這也是辯護的一環。" },
-        { id: "14", text: "這是一個魔鬼，但他是我這邊的魔鬼。", reply: "這是你在這場悲劇中做的唯一正確的評價。" },
-        { id: "15", text: "他居然叫我把證據吞下去，我還以為他在開玩笑。", reply: "那種纖維質對你的案情非常有幫助。" },
-        { id: "16", text: "他在事務所裡養了一隻食人魚，還叫我的名字。", reply: "牠很聽話，而且從不詢問律師費能不能打折。" },
-        { id: "17", text: "他說我的長相就是一種犯罪，建議我直接認罪。", reply: "法官是看臉決定量刑的，我是在救你。" },
-        { id: "20", text: "他在開庭前問我：『你喜歡什麼顏色的監獄服？』", reply: "我只是想幫你做最後的個人色彩分析。" }
-        // (可依此格式擴充至 50 條)
+    const reviews = [
+        { id: "01", text: "他居然在法庭上說對方的律師長得像猴子。我輸了官司，但他看起來很爽。", reply: "更正：是對靈長類動物的冒犯。我事後已向動物園致歉。" },
+        { id: "05", text: "他在事務所裡抽雪茄，還把煙吐在我臉上，說這叫『法律的薰陶』。", reply: "高品質煙霧有助於過濾廢話。建議列入諮詢費。" },
+        { id: "08", text: "他在合約裡加了一條：如果他贏了，我要跪著付錢。", reply: "這叫尊重專業。下次請自備護膝。" },
+        { id: "10", text: "他說我的長相就是一種犯罪，建議我直接認罪。", reply: "我是在幫你節省公帑，法官看到你的臉會判更重。" },
+        { id: "13", text: "他在開庭時用手機訂外送，還問法官要不要吃漢堡。", reply: "飢餓會導致誤判，我這是在維護司法正義。" },
+        { id: "15", text: "他說我的案子唯一的亮點就是我那愚蠢的勇氣。", reply: "勇氣可嘉，但支票簿的厚度才決定這場官司的勝負。" },
+        { id: "16", text: "他在事務所裡養了一隻食人魚，還叫我的名字。", reply: "牠比你聽話，而且從不詢問能不能打折。" },
+        { id: "19", text: "他在開庭時全程戴墨鏡，說對面的愚蠢閃到了他的眼睛。", reply: "保護視力是律師的職業本能。對面真的很瞎。" }
     ];
 
-    const display = document.getElementById('reviewDisplay');
+    const contentDiv = document.getElementById('reviewContent');
+    const popup = document.getElementById('popupRebuttal');
+    const popupMsg = document.getElementById('popupMsg');
 
-    function updateDisplay() {
-        display.style.opacity = 0;
+    function cycleReview() {
+        // 1. 隱藏舊內容
+        contentDiv.style.opacity = 0;
+        popup.classList.remove('show');
+
         setTimeout(() => {
-            const rev = staticReviews[Math.floor(Math.random() * staticReviews.length)];
-            display.innerHTML = `
+            const rev = reviews[Math.floor(Math.random() * reviews.length)];
+            
+            // 2. 顯示負評
+            contentDiv.innerHTML = `
                 <div class="review-stars">★☆☆☆☆</div>
                 <div class="review-text">「${rev.text}」</div>
-                <div class="system-tag">[SYSTEM] : 檔案編號 #VNTG-${rev.id}</div>
-                <div class="rebuttal-box">
-                    <span class="rebuttal-label">ATTORNEY'S REBUTTAL:</span>
-                    <span>${rev.reply}</span>
-                </div>
+                <span class="system-tag">[SYSTEM] : 檔案編號 #VNTG-${rev.id}</span>
             `;
-            display.style.opacity = 1;
-        }, 600);
+            contentDiv.style.opacity = 1;
+
+            // 3. 延遲 1.5 秒彈出回覆
+            setTimeout(() => {
+                popupMsg.innerText = rev.reply;
+                popup.classList.add('show');
+            }, 1500);
+
+        }, 800);
     }
 
-    setInterval(updateDisplay, 6000); // 6秒換一次
-    window.onload = updateDisplay;
+    // 每 7 秒切換一次（給彈窗留足夠時間）
+    setInterval(cycleReview, 7000);
+    window.onload = cycleReview;
 
-    async function handleCustomSubmit() {
+    function handleCustomSubmit() {
         const comment = document.getElementById('comment').value;
-        const ratingInput = document.querySelector('input[name="rating"]:checked');
-        if (!ratingInput || !comment) { alert("請輸入完整數據。"); return; }
-
-        const rating = ratingInput.value;
-        const starCount = parseInt(rating);
+        if(!comment) return;
         
-        fetch("https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/formResponse", {
-            method: "POST", mode: "no-cors", body: new FormData()
-        });
+        alert("證言錄入成功。");
+        
+        contentDiv.style.opacity = 0;
+        popup.classList.remove('show');
 
-        alert("數據採集完成。感謝你對盧卡律師形象的無謂貢獻。");
-
-        display.style.opacity = 0;
         setTimeout(() => {
-            let stars = "★".repeat(starCount) + "☆".repeat(5 - starCount);
-            display.innerHTML = `
-                <div class="review-stars">${stars}</div>
+            contentDiv.innerHTML = `
+                <div class="review-stars">★★★☆☆</div>
                 <div class="review-text">「${comment}」</div>
-                <div class="system-tag">[SYSTEM] : 檔案編號 #VNTG-TEMP</div>
-                <div class="rebuttal-box">
-                    <span class="rebuttal-label">ATTORNEY'S REBUTTAL:</span>
-                    <span>證言已收到。律師表示這寫得跟你的辯詞一樣無力。</span>
-                </div>
+                <span class="system-tag">[SYSTEM] : 檔案編號 #VNTG-LIVE</span>
             `;
-            display.style.opacity = 1;
-        }, 600);
+            contentDiv.style.opacity = 1;
+
+            setTimeout(() => {
+                popupMsg.innerText = "已攔截。本系統拒絕處理這種充滿情緒化的垃圾信息。";
+                popup.classList.add('show');
+            }, 1500);
+        }, 800);
         document.getElementById('comment').value = "";
     }
 </script>
