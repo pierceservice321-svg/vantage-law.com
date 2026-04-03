@@ -15,7 +15,7 @@
         
         /* 表單區域 */
         .form-section { background: #f9f9f9; padding: 40px; border: 1px solid #eee; margin-bottom: 40px; }
-        .form-intro { font-family: monospace; font-size: 0.95rem; text-align: left; margin-bottom: 30px; font-weight: bold; border-left: 4px solid #8B4513; padding-left: 15px; }
+        .form-intro { font-family: monospace; font-size: 1rem; text-align: center; margin-bottom: 30px; font-weight: bold; }
         
         .stars-input { display: flex; flex-direction: row-reverse; justify-content: center; margin-bottom: 25px; }
         .stars-input input { display: none; }
@@ -24,19 +24,19 @@
         
         textarea { width: 100%; border: 1px solid #ccc; padding: 15px; box-sizing: border-box; font-family: serif; font-size: 1rem; margin-bottom: 15px; height: 100px; outline: none; resize: none; }
         button { background: #000; color: #fff; border: none; padding: 15px 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; width: 100%; font-weight: bold; transition: 0.3s; }
-        button:hover { background: #8B4513; }
+        button:hover { background: #333; }
 
-        /* --- 負評展示區（還原為原本的回覆樣式） --- */
-        .display-wrapper { height: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 1px dashed #ccc; margin-top: 30px; padding-top: 20px; }
+        /* --- 負評展示區 --- */
+        .display-wrapper { height: 350px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; border-top: 2px solid #000; margin-top: 30px; padding-top: 20px; }
         #reviewDisplay { transition: opacity 0.6s ease-in-out; opacity: 0; width: 100%; }
         .review-stars { font-size: 1.2rem; margin-bottom: 15px; letter-spacing: 5px; color: #000; }
         .review-text { font-size: 1.4rem; margin-bottom: 10px; font-weight: bold; line-height: 1.5; padding: 0 10px; }
         .system-tag { font-family: monospace; font-size: 0.95rem; color: #999; margin-top: 5px; display: block; }
         
-        .rebuttal-box { font-family: monospace; font-size: 0.85rem; color: #666; margin-top: 20px; padding: 10px 20px; display: inline-block; border-left: 2px solid #8B4513; background: #fcfcfc; text-align: left; max-width: 85%; }
+        .rebuttal-box { font-family: monospace; font-size: 0.85rem; color: #666; margin-top: 20px; padding: 10px 20px; display: inline-block; border-left: 2px solid #000; background: #f0f0f0; text-align: left; max-width: 85%; }
         .rebuttal-label { font-weight: bold; color: #000; display: block; margin-bottom: 3px; }
 
-        /* --- 中央送出成功的彈出視窗 --- */
+        /* --- 中央彈出視窗 --- */
         #systemPopup {
             position: fixed;
             top: 50%;
@@ -52,10 +52,10 @@
             visibility: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             font-family: monospace;
-            border: 1px solid #8B4513;
+            border-left: 5px solid #8B4513;
         }
         #systemPopup.show { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
-        .popup-title { color: #8B4513; font-weight: bold; display: block; margin-bottom: 15px; font-size: 0.9rem; letter-spacing: 2px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .popup-title { color: #8B4513; font-weight: bold; display: block; margin-bottom: 15px; font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
         .popup-msg { font-size: 0.9rem; line-height: 1.6; }
 
         .view-all { text-align: center; margin-top: 60px; }
@@ -71,7 +71,7 @@
     </header>
 
     <section class="form-section">
-        <div class="form-intro">&gt; DATA ACQUISITION: IN PROGRESS<br>&gt; 法律不憐憫弱者，但您可以選擇在此留下遺言。</div>
+        <div class="form-intro">&gt; 請選擇對您那悲慘命運的滿意度。</div>
         <form id="gform">
             <div class="stars-input">
                 <input type="radio" id="s5" name="rating" value="5星"><label for="s5">★</label>
@@ -80,7 +80,7 @@
                 <input type="radio" id="s2" name="rating" value="2星"><label for="s2">★</label>
                 <input type="radio" id="s1" name="rating" value="1星"><label for="s1">★</label>
             </div>
-            <textarea id="comment" placeholder="輸入匿名證言..." required></textarea>
+            <textarea id="comment" placeholder="在此處輸入匿名證言 / INPUT TESTIMONY HERE..." required></textarea>
             <button type="button" onclick="handleCustomSubmit()">Submit Testimony</button>
         </form>
     </section>
@@ -90,24 +90,25 @@
     </div>
 
     <div class="view-all">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/viewanalytics" target="_blank">Access Archives →</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/viewanalytics" target="_blank">Access Full Archives →</a>
     </div>
 </div>
 
 <div id="systemPopup">
-    <span class="popup-title">SYSTEM NOTIFICATION</span>
-    <div class="popup-msg" id="popupMsg">數據採集完成。</div>
+    <span class="popup-title">ATTORNEY'S REBUTTAL</span>
+    <div class="popup-msg" id="popupMsg"></div>
 </div>
 
 <script>
     const staticReviews = [
-        { id: "01", text: "他居然在法庭上說對方的律師長得像猴子。我輸了官司，但他看起來很爽。", reply: "更正：是對靈長類動物的冒犯。我事後已向動物園致歉。" },
-        { id: "05", text: "他在事務所裡抽雪茄，還把煙吐在我臉上，說這叫『法律的薰陶』。", reply: "高品質煙霧有助於過濾廢話。建議列入諮詢費。" },
-        { id: "08", text: "他在合約裡加了一條：如果他贏了，我要跪著付錢。", reply: "這叫尊重專業。下次請自備護膝。" },
-        { id: "10", text: "他說我的長相就是一種犯罪，建議我直接認罪。", reply: "法官看到你的臉會判更重。我是在救你。" },
-        { id: "13", text: "他在開庭時用手機訂外送，還問法官要不要吃漢堡。", reply: "飢餓會導致誤判，我這是在維護司法正義。" },
-        { id: "15", text: "他說我的案子唯一的亮點就是我那愚蠢的勇氣。", reply: "勇氣可嘉，但支票簿的厚度才決定勝負。" },
-        { id: "19", text: "他在開庭時全程戴墨鏡，說對面的愚蠢閃到了他的眼睛。", reply: "對面真的很瞎。保護視力是律師的基本人權。" }
+        { id: "01", text: "他居然在法庭上說對方的律師長得像個未進化完成的猴子。我輸了官司，但他看起來很爽。", reply: "更正：那是對靈長類動物的侮辱，我已經為此向動物園道歉了。" },
+        { id: "05", text: "他居然在事務所裡抽雪茄，還把煙吐在我臉上，說這叫『法律的薰陶』。", reply: "這叫高品質雪茄的被動分享，你應該付我清潔費。" },
+        { id: "08", text: "他在合約裡加了一條：如果他贏了，我要跪著付錢。", reply: "尊嚴是給贏家的，而你顯然不屬於那一類。" },
+        { id: "10", text: "他說我的長補就是一種犯罪，建議我直接認罪。", reply: "我是在幫你節省公帑，法官看到你的臉會判得更重。" },
+        { id: "13", text: "他在開庭時在用手機訂外送，還問法官要不要吃漢堡。", reply: "飢餓會導致誤判，我這是在維護司法正義。" },
+        { id: "15", text: "他說我的案子唯一的亮點就是我那愚蠢的勇氣。", reply: "勇敢與愚蠢只有一線之隔，而你已經跨過去很遠了。" },
+        { id: "16", text: "他在事務所裡養了一隻食人魚，還叫我的名字。", reply: "牠比你聽話，而且從不抱怨帳單。" },
+        { id: "19", text: "他在開庭時全程戴著墨鏡，說對面的愚蠢閃到了他的眼睛。", reply: "這是一種職場安全防護，避免被智商傳染。" }
     ];
 
     const display = document.getElementById('reviewDisplay');
@@ -123,7 +124,7 @@
                 <div class="review-text">「${rev.text}」</div>
                 <div class="system-tag">[SYSTEM] : 檔案編號 #VNTG-${rev.id}</div>
                 <div class="rebuttal-box">
-                    <span class="rebuttal-label">ATTORNEY'S REBUTTAL:</span>
+                    <span class="rebuttal-label">Attorney's Rebuttal:</span>
                     <span>${rev.reply}</span>
                 </div>
             `;
@@ -138,24 +139,22 @@
         const comment = document.getElementById('comment').value;
         const ratingInput = document.querySelector('input[name="rating"]:checked');
         
-        if (!comment || !ratingInput) {
-            showPopup("請輸入完整數據，法律不容許任何疏漏。");
-            return;
-        }
+        if (!comment || !ratingInput) return;
 
         const starCount = parseInt(ratingInput.value);
         
-        // 彈出視窗文字
-        const messages = [
-            "數據採集完成。感謝你對盧卡律師形象的無謂貢獻。",
-            "證言已錄入。雖然這改變不了你失敗的人生。",
-            "好評收到。現在，請把律師費匯過來。",
-            "律師已查閱。他表示這寫得跟你的辯詞一樣無力。"
+        const popupMessages = [
+            "感謝好評。現在，把錢匯過來。",
+            "證言已錄入。律師現在非常不高興。",
+            "你的崇拜讓我感到噁心，但你的錢我很喜歡。",
+            "已收到。律師正在考慮是否要起訴你誹謗。"
         ];
         
-        showPopup(starCount === 5 ? messages[2] : messages[Math.floor(Math.random()*messages.length)]);
+        let msg = (starCount === 5) ? popupMessages[0] : popupMessages[1];
+        if (Math.random() > 0.5) msg = popupMessages[Math.floor(Math.random()*4)];
+
+        showPopup(msg);
         
-        // 重置表單
         document.getElementById('comment').value = "";
     }
 
@@ -164,7 +163,7 @@
         popup.classList.add('show');
         setTimeout(() => {
             popup.classList.remove('show');
-        }, 3500); // 3.5秒後自動關閉
+        }, 3500); 
     }
 </script>
 </body>
