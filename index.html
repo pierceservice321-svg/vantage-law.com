@@ -7,9 +7,11 @@
     <style>
         body { background-color: #ffffff; color: #000; font-family: "Garamond", serif; margin: 0; padding: 60px 20px; line-height: 1.6; }
         .container { max-width: 650px; margin: auto; }
-        header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 40px; margin-bottom: 50px; }
-        h1 { font-size: 3rem; letter-spacing: 8px; text-transform: uppercase; margin: 0; }
-        .intro { font-style: italic; margin-top: 20px; color: #555; font-size: 1.1rem; }
+        
+        /* Header 樣式 */
+        header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 30px; margin-bottom: 50px; }
+        h1 { font-size: 2.5rem; letter-spacing: 10px; text-transform: uppercase; margin: 0; font-weight: bold; }
+        .intro { font-family: serif; margin-top: 20px; color: #333; font-size: 1.1rem; line-height: 1.8; }
         
         /* 表單區域 */
         .form-section { background: #f9f9f9; padding: 40px; border: 1px solid #eee; margin-bottom: 60px; }
@@ -35,7 +37,7 @@
         
         /* 頁尾連結 */
         .view-all { text-align: center; margin-top: 40px; }
-        .view-all a { color: #000; text-decoration: none; border-bottom: 1px solid #000; font-size: 0.9rem; padding-bottom: 2px; }
+        .view-all a { color: #000; text-decoration: none; border-bottom: 1px solid #000; font-size: 0.8rem; padding-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; }
         
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -45,7 +47,11 @@
 <div class="container">
     <header>
         <h1>VANTAGE LAW</h1>
-        <p class="intro">尋求辯護律師嗎？<br>如果你剛好在找一個毒舌又強悍的律師...<br>看看這些證言，就知道你找對地方了。</p>
+        <p class="intro">
+            尋求辯護律師嗎？<br>
+            如果你剛好在找一個毒舌又麻煩的律師...<br>
+            看看這些證言，就知道你來對地方了。
+        </p>
     </header>
 
     <section class="form-section">
@@ -85,22 +91,10 @@
             <div class="review-text">「我給了一顆星，隔天我家門口就坐著一個收債人。」</div>
             <div class="review-subtext">[SYSTEM]：偵測到低階評價。律師已授權收債人進行身分核實。</div>
         </div>
-
-        <div class="review-item">
-            <div class="review-stars">★☆☆☆☆</div>
-            <div class="review-text">「千萬別找他，他會叫你閉嘴然後直接去坐牢。」</div>
-            <div class="review-subtext">[SYSTEM]：檔案已自動存檔於「威脅素材」資料夾。備註：隨時待命。</div>
-        </div>
-
-        <div class="review-item">
-            <div class="review-stars">★☆☆☆☆</div>
-            <div class="review-text">「他真的會叫客戶滾出去。」</div>
-            <div class="review-subtext">[SYSTEM]：紀錄生成失敗。律師目前拒絕閱讀任何字數超過十個字的廢話。</div>
-        </div>
     </div>
 
     <div class="view-all">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/viewanalytics" target="_blank">View All Public Testimonials →</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/viewanalytics" target="_blank">Access Full Archives →</a>
     </div>
 </div>
 
@@ -126,11 +120,11 @@
         // 提交到 Google 表單
         fetch(formURL, { method: "POST", mode: "no-cors", body: formData });
 
-        // 隨機彈窗回覆
+        // 彈窗
         let alertMsg = (rating === "1星") ? harshAlerts[Math.floor(Math.random() * harshAlerts.length)] : normalAlerts[Math.floor(Math.random() * normalAlerts.length)];
         alert(alertMsg);
 
-        // 即時顯示評論在最上方
+        // 即時顯示
         const container = document.getElementById('reviewContainer');
         const item = document.createElement('div');
         item.className = 'review-item';
