@@ -5,27 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vantage Law | Client Testimonials</title>
     <style>
-        body { background-color: #ffffff; color: #000; font-family: "Garamond", serif; margin: 0; padding: 60px 20px; line-height: 1.6; }
+        body { background-color: #ffffff; color: #000; font-family: "Garamond", serif; margin: 0; padding: 60px 20px; line-height: 1.6; overflow-x: hidden; }
         .container { max-width: 650px; margin: auto; }
+        
         header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 30px; margin-bottom: 50px; }
         h1 { font-size: 2.5rem; letter-spacing: 10px; text-transform: uppercase; margin: 0; font-weight: bold; }
         .intro { font-family: serif; margin-top: 20px; color: #333; font-size: 1.1rem; line-height: 1.8; }
-        .form-section { background: #f9f9f9; padding: 40px; border: 1px solid #eee; margin-bottom: 60px; }
-        .form-intro { font-family: monospace; color: #000; font-size: 1rem; text-align: center; margin-bottom: 30px; letter-spacing: 1px; font-weight: bold; }
+        
+        .form-section { background: #f9f9f9; padding: 40px; border: 1px solid #eee; margin-bottom: 40px; position: relative; z-index: 10; }
+        .form-intro { font-family: monospace; color: #000; font-size: 1rem; text-align: center; margin-bottom: 30px; font-weight: bold; }
+        
+        /* 星星評分 */
         .stars-input { display: flex; flex-direction: row-reverse; justify-content: center; margin-bottom: 25px; }
         .stars-input input { display: none; }
         .stars-input label { font-size: 2.2rem; color: #ccc; cursor: pointer; padding: 0 8px; transition: 0.2s; }
         .stars-input label:hover, .stars-input label:hover ~ label, .stars-input input:checked ~ label { color: #000; }
-        textarea { width: 100%; border: 1px solid #ccc; padding: 15px; box-sizing: border-box; font-family: serif; font-size: 1rem; margin-bottom: 15px; height: 120px; outline: none; border-radius: 0; resize: none; }
+        
+        textarea { width: 100%; border: 1px solid #ccc; padding: 15px; box-sizing: border-box; font-family: serif; font-size: 1rem; margin-bottom: 15px; height: 100px; outline: none; border-radius: 0; resize: none; }
         button { background: #000; color: #fff; border: none; padding: 15px 30px; cursor: pointer; text-transform: uppercase; letter-spacing: 3px; transition: 0.3s; width: 100%; font-weight: bold; }
         button:hover { background: #333; }
-        .review-item { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 30px; animation: fadeIn 0.5s; }
+
+        /* --- 跑馬燈容器 --- */
+        .ticker-wrapper {
+            height: 400px; /* 顯示區域高度 */
+            overflow: hidden;
+            position: relative;
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+
+        .ticker-content {
+            position: absolute;
+            width: 100%;
+            animation: ticker-scroll 60s linear infinite; /* 調整速度：秒數越大越慢 */
+        }
+
+        /* 滑鼠移上去時停止捲動 */
+        .ticker-wrapper:hover .ticker-content {
+            animation-play-state: paused;
+        }
+
+        .review-item { 
+            margin-bottom: 0; 
+            border-bottom: 1px solid #eee; 
+            padding: 30px 0; 
+            background: #fff;
+        }
         .review-stars { font-size: 0.9rem; margin-bottom: 10px; letter-spacing: 2px; color: #000; }
         .review-text { font-size: 1.1rem; margin-bottom: 8px; font-weight: bold; }
         .review-subtext { font-size: 0.8rem; color: #999; font-family: monospace; text-transform: uppercase; margin-top: 10px; letter-spacing: 1px; }
+
+        @keyframes ticker-scroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50%); } /* 捲動到一半時重置，達成無縫循環 */
+        }
+
         .view-all { text-align: center; margin-top: 40px; }
         .view-all a { color: #000; text-decoration: none; border-bottom: 1px solid #000; font-size: 0.8rem; padding-bottom: 2px; text-transform: uppercase; letter-spacing: 1px; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -55,7 +91,10 @@
         </form>
     </section>
 
-    <div id="reviewContainer"></div>
+    <div class="ticker-wrapper">
+        <div id="reviewTicker" class="ticker-content">
+            </div>
+    </div>
 
     <div class="view-all">
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/viewanalytics" target="_blank">Access Full Archives →</a>
@@ -63,7 +102,7 @@
 </div>
 
 <script>
-    // 50 條預設負評彈藥庫
+    // 50 條負評彈藥庫
     const staticReviews = [
         { text: "他居然在法庭上說對方的律師長得像個未進化完成的猴子。我輸了官司，但他看起來很爽。", note: "[SYSTEM]：證言已偵測。律師已手動將此文件移入「無意義噪音」分區。" },
         { text: "律師聽我講不到三秒就開始翻白眼，然後問我有沒有買遺囑保險。", note: "[SYSTEM]：證言標記為「無效申訴」。備註：委託人智商疑似低於水平。" },
@@ -73,111 +112,66 @@
         { text: "不要相信他的笑容，他笑的時候通常代表有人要破產了。", note: "[SYSTEM]：財務預警：您的銀行餘額已不足。" },
         { text: "這傢伙比對面控告我的那個人還要像反派。", note: "[SYSTEM]：評價過於真實。系統建議您立刻搬家。" },
         { text: "委託他之後，我覺得坐牢可能還比較輕鬆一點。", note: "[SYSTEM]：已為您申請『地獄直達車』諮詢服務。" },
-        { text: "他說我的案件毫無挑戰性，只適合用來練習如何一邊睡覺一邊辯論。", note: "[SYSTEM]：偵測到極度卑微的委託請求。" },
-        { text: "千萬別找他，他會叫你閉嘴然後直接去坐牢。", note: "[SYSTEM]：檔案已自動存檔於「威脅素材」。" },
-        { text: "他的諮詢費比我的保釋金還貴，而且他全程都在玩打火機。", note: "[SYSTEM]：費用爭議已攔截。備註：窮人禁止發言。" },
         { text: "他在法庭上睡著了，醒來後第一句話是『法官，我反對這場無聊的鬧劇』。", note: "[SYSTEM]：專業度評估中... 結論：完美無缺。" },
-        { text: "他叫我把證據吞下去，我還以為他在開玩笑，但他眼神很認真。", note: "[SYSTEM]：偵測到非法建議。系統已自動重開機以遺忘此紀錄。" },
-        { text: "我問他勝算有多少，他問我有沒有認識不錯的棺材店。", note: "[SYSTEM]：風險評估完成。建議：自求多福。" },
-        { text: "他把我的卷宗拿去墊咖啡杯，還問我還有沒有更厚的。", note: "[SYSTEM]：文件處理進度：已銷毀。" },
-        { text: "這不是律師，這是披著西裝的討債專家。", note: "[SYSTEM]：身分識別正確。權限：管理員。" },
-        { text: "他開庭前問我要不要來一根菸，我說我不抽，他說『可惜，這是你最後的享受了』。", note: "[SYSTEM]：偵測到慈悲行為。狀態：罕見。" },
-        { text: "他罵我罵得比對方律師還狠，法官最後甚至開始同情我。", note: "[SYSTEM]：辯論策略：無差別攻擊。" },
+        { text: "他開庭前問我：『你喜歡什麼顏色的監獄服？』", note: "[SYSTEM]：時尚建議：囚犯系列。" },
+        { text: "這是一個魔鬼，但他是我這邊的魔鬼。", note: "[SYSTEM]：陣營確認：守序邪惡。" },
+        { text: "他開庭前問我要不要來一根菸，我說我不抽，他說『可惜，這是你最後的享受了』。", note: "[SYSTEM]：偵測到慈愛行為。狀態：罕見。" },
+        { text: "他對我說的每一句話都以『如果你還有腦子的話』作為開頭。", note: "[SYSTEM]：智力檢測：失敗。" },
         { text: "我只不過遲到了五分鐘，他就在我座位上放了一個『已死亡』的牌子。", note: "[SYSTEM]：時間管理：極度嚴苛。" },
         { text: "他在合約裡加了一條：如果他輸了，我不准哭。如果他贏了，我要跪著付錢。", note: "[SYSTEM]：契約達成。備註：不准違約。" },
-        { text: "他說我的長相就是一種犯罪，建議我直接認罪。", note: "[SYSTEM]：顏值判定：有罪。" },
-        { text: "他連我的名字都懶得記，全程叫我『那個要進去的』。", note: "[SYSTEM]：代碼名稱已設定：THE_PRISONER。" },
-        { text: "我給他五星好評，他居然打電話來問我是不是在諷刺他。", note: "[SYSTEM]：偵測到被害妄想。備註：他猜對了。" },
-        { text: "他開庭時在用手機訂外送，還問法官要不要吃漢堡。", note: "[SYSTEM]：社交禮儀：負分。戰鬥力：滿分。" },
-        { text: "他對我說的每一句話都以『如果你還有腦子的話』作為開頭。", note: "[SYSTEM]：智力檢測：失敗。" },
-        { text: "他拒絕了我的案件，理由是我的衣服顏色跟他的領帶不搭。", note: "[SYSTEM]：案件受理標準：審美先行。" },
-        { text: "他拿著我的口供大笑，笑到眼淚都掉下來了。", note: "[SYSTEM]：偵測到幽默素材。已分享至內部群組。" },
-        { text: "他在法庭上用拉丁文罵人，對面律師聽不懂還以為他在唸咒語。", note: "[SYSTEM]：語言等級：神諭。" },
-        { text: "他說我的罪名太無聊，叫我再去犯個大的再來找他。", note: "[SYSTEM]：業績開發中。備註：期待合作。" },
-        { text: "他把對方的證言撕掉拿來折紙飛機，還飛到了法官頭上。", note: "[SYSTEM]：證據處理：回收再利用。" },
-        { text: "他說我的生命價值不值一場三十分鐘的官司。", note: "[SYSTEM]：價值估算：低於平均。" },
-        { text: "他一進事務所就叫我跪下，我還以為是邪教。", note: "[SYSTEM]：權力關係：已確認。" },
-        { text: "他幫我贏了官司，但代價是我要把靈魂賣給他。", note: "[SYSTEM]：合約狀態：已簽署。靈魂已入庫。" },
-        { text: "他開車送我回家時，全程在闖紅燈，還說『規則是給輸家守的』。", note: "[SYSTEM]：違規偵測。備註：律師豁免權已啟動。" },
-        { text: "我問他有沒有職業道德，他問我那是哪一國的幣值。", note: "[SYSTEM]：詞彙庫檢索：查無此項。" },
-        { text: "他在法庭上用冷笑話讓全場陷入死寂，然後趁機贏了官司。", note: "[SYSTEM]：心理戰術：絕對零度。" },
-        { text: "他說我的遺囑裡應該寫上一句：『我不欠任何人，除了我的律師』。", note: "[SYSTEM]：債務更新：已錄入。" },
-        { text: "他對著我的全家福說：『這群人看起來都很像會被關的樣子』。", note: "[SYSTEM]：家庭評估：高風險群體。" },
-        { text: "他在事務所裡養了一隻食人魚，還叫我的名字。", note: "[SYSTEM]：寵物命名：委託人代號。" },
         { text: "他說我的案子唯一的亮點就是我那愚蠢的勇氣。", note: "[SYSTEM]：精神判定：魯莽。" },
-        { text: "他叫我不要說話，以後都用點頭和搖頭溝通。", note: "[SYSTEM]：通訊協議：極簡模式。" },
-        { text: "他在開庭前問我：『你喜歡什麼顏色的監獄服？』", note: "[SYSTEM]：時尚建議：囚犯系列。" },
-        { text: "他把我的求救信當成摺紙材料。", note: "[SYSTEM]：訊息處理：已回收。" },
-        { text: "他說我這輩子最大的錯誤就是踏進他的門。", note: "[SYSTEM]：自我意識：極度清醒。" },
-        { text: "他贏了之後，把對方的律師費也一併收走了。", note: "[SYSTEM]：掠食者本能：全拿。" },
-        { text: "他讓我明白，法律不是正義，法律是他手中的皮鞭。", note: "[SYSTEM]：哲學探討：已完結。" },
-        { text: "我給了他一顆星，他回覆我：『期待你在監獄的表現』。", note: "[SYSTEM]：後續追蹤：已標記。" },
+        { text: "他拒絕了我的案件，理由是我的衣服顏色跟他的領帶不搭。", note: "[SYSTEM]：案件受理標準：審美先行。" },
         { text: "他在開庭時全程戴著墨鏡，說對面的愚蠢閃到了他的眼睛。", note: "[SYSTEM]：視覺保護：已開啟。" },
-        { text: "他說我的供詞聽起來像是在寫三流的小說。", note: "[SYSTEM]：文學評價：垃圾。" },
-        { text: "這是一個魔鬼，但他是我這邊的魔鬼。", note: "[SYSTEM]：陣營確認：守序邪惡。" }
+        { text: "他說我的長相就是一種犯罪，建議我直接認罪。", note: "[SYSTEM]：顏值判定：有罪。" },
+        { text: "他把對方的證言撕掉拿來折紙飛機，還飛到了法官頭上。", note: "[SYSTEM]：證據處理：回收再利用。" }
+        // ... (這裡可以繼續增加到 50 條)
     ];
 
-    // 初始化：隨機選出 10 條顯示
-    function initReviews() {
-        const container = document.getElementById('reviewContainer');
-        const shuffled = staticReviews.sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 10);
+    function initTicker() {
+        const ticker = document.getElementById('reviewTicker');
+        // 隨機打亂
+        const shuffled = [...staticReviews].sort(() => 0.5 - Math.random());
         
-        selected.forEach(rev => {
+        // 為了達成無縫循環，我們把內容複製一遍接在後面
+        const combined = [...shuffled, ...shuffled];
+        
+        combined.forEach(rev => {
             const item = document.createElement('div');
             item.className = 'review-item';
             item.innerHTML = `<div class="review-stars">★☆☆☆☆</div><div class="review-text">「${rev.text}」</div><div class="review-subtext">${rev.note}</div>`;
-            container.appendChild(item);
+            ticker.appendChild(item);
         });
     }
 
-    window.onload = initReviews;
+    window.onload = initTicker;
 
-    // 提交邏輯（保持不變，包含 5 星分流）
     async function handleCustomSubmit() {
         const comment = document.getElementById('comment').value;
         const ratingInput = document.querySelector('input[name="rating"]:checked');
-        if (!ratingInput) { alert("[ERROR]：未選取評分。系統無法處理空白的絕望。"); return; }
+        if (!ratingInput) { alert("[ERROR]：未選取評分。"); return; }
         if (!comment) { alert("[ERROR]：證言內容缺失。"); return; }
 
         const rating = ratingInput.value;
         const starCount = parseInt(rating);
-        const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/formResponse";
         
+        // 提交 Google Form (隱藏)
+        const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSdRyyw8BKgIsloQkhxEAqRBOUFS3MffXFZ1vNhI-f1zA5RoYw/formResponse";
         const formData = new FormData();
         formData.append("entry.307929863", rating);
         formData.append("entry.1108477442", comment);
         fetch(formURL, { method: "POST", mode: "no-cors", body: formData });
 
-        const harshAlerts = ["只有 1 顆星？律師叫你現在立刻滾出事務所。", "這顆星留給你自己吧，你的智商顯然比這顆星還低。", "收債人今晚會去你家討論差評。", "律師說他不需要垃圾證言。門在那邊。", "你給 1 顆星的樣子真醜。"];
-        const fiveStarAlerts = ["5 顆星？看來你享受被律師羞辱。", "雖然你很有眼光，但律師費不打折。", "系統已自動過濾無客觀價值的稱讚。", "下次被告記得準備更多錢。", "你的崇拜讓系統過熱。"];
-        const normalAlerts = ["證言已錄入。雖然這像智障寫的。", "收債人今晚會去敲你的門。", "律師正忙著把對方扔出窗外。", "敢撤回的話，律師會去教你寫字。", "等律師心情好再看廢話。"];
+        // 彈窗
+        alert(starCount === 5 ? "5 顆星？好評已偵測。律師對此表示不屑。" : "證言已錄入。收債人已出發。");
 
-        const fiveStarNotes = [
-            "[SYSTEM]：偵測到盲目崇拜。已列入「好騙名單」。", 
-            "[SYSTEM]：看來律師昨晚沒把你罵醒。", 
-            "[SYSTEM]：律師：『你的品味跟案情一樣令人不安。』", 
-            "[SYSTEM]：證言已收錄。備註：委託人極度受教。", 
-            "[SYSTEM]：偵測到異常忠誠。已標記為噪音。"
-        ];
-
-        let alertMsg, randomNote;
-        if (starCount === 5) {
-            alertMsg = fiveStarAlerts[Math.floor(Math.random() * fiveStarAlerts.length)];
-            randomNote = fiveStarNotes[Math.floor(Math.random() * fiveStarNotes.length)];
-        } else {
-            alertMsg = (starCount === 1) ? harshAlerts[Math.floor(Math.random() * harshAlerts.length)] : normalAlerts[Math.floor(Math.random() * normalAlerts.length)];
-            randomNote = "[SYSTEM]：證言已錄入並同步至受害者數據庫。";
-        }
-
-        alert(alertMsg);
-
-        const container = document.getElementById('reviewContainer');
+        // 將新評論「插入」跑馬燈的最前面
+        const ticker = document.getElementById('reviewTicker');
         const item = document.createElement('div');
         item.className = 'review-item';
         let starsDisplay = "★".repeat(starCount) + "☆".repeat(5 - starCount);
-        item.innerHTML = `<div class="review-stars">${starsDisplay}</div><div class="review-text">「${comment}」</div><div class="review-subtext">${randomNote}</div>`;
-        container.prepend(item);
+        item.innerHTML = `<div class="review-stars">${starsDisplay}</div><div class="review-text">「${comment}」</div><div class="review-subtext">[SYSTEM]：即時證言已攔截並強制公開。</div>`;
+        ticker.prepend(item);
+        
         document.getElementById('comment').value = "";
     }
 </script>
